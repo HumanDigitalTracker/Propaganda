@@ -12,7 +12,7 @@ import HeadlineSummary from "../../Headlines/HeadlineSummary";
 
 import sample from './sample.json';
 import schema from './schema.json';
-import HeadlineCreator2 from "../../Admin/HeadlineCreator2";
+import CustomMentionEditor from "../../Admin/CustomComponentMentionEditor";
 
 class Shrinker extends Component {
 
@@ -77,19 +77,19 @@ class HeadlineCard extends Component {
   constructor(props) {
     super(props);
     this.schema = schema;
-    this.state = {adminmodal: false, flipped: false};
+    this.state = {adminmodal: false, flipped: false, editorState : EditorState.createWithContent(convertFromRaw( props.data ))};
   }
 
   shouldComponentUpdate() {
     return true;
   }
 
-  onChange = (editorStateKey) => (editorState) => {
-    this.setState({ [editorStateKey]: editorState });
+  onChange = (editorState) => {
+    this.setState({ 'editorState': editorState });
   }
 
   flyTo() {
-alert(1);
+    alert(1);
   }
 
   addBorder() {
@@ -101,17 +101,13 @@ alert(1);
   }
 
   render() {
-    const {data, thekey, extra, pageActions} = this.props;
-
-    const raw = {"entityMap": {"1": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(236,222,239,0)", 0.2, "rgb(208,209,230)", 0.4, "rgb(166,189,219)", 0.6, "rgb(103,169,207)", 0.8, "rgb(28,144,153)"], "data": "heatmap_bad", "name": "Somewhere Bad", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}, "0": {"data": {"mention": {"name": "North Pitsburgh", "geojson": {"duration": 1000, "center": [-79.92606, 40.34961], "zoom": 12}}}, "type": "@Rmention", "mutability": "SEGMENTED"}, "2": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(12,34,239,0)", 0.2, "rgb(13,45,230)", 0.4, "rgb(12,18,219)", 0.6, "rgb(12,19,207)", 0.8, "rgb(1,144,153)"], "data": "heatmap_good", "name": "Somewhere Good", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}}, "blocks": [{"text": "dgfdf North Pitsburgh Somewhere Bad and somewher good Somewhere Good ", "entityRanges": [{"length": 15, "key": 0, "offset": 6}, {"length": 13, "key": 1, "offset": 22}, {"length": 14, "key": 2, "offset": 54}], "depth": 0, "data": {}, "key": "bs0hs", "inlineStyleRanges": [], "type": "unstyled"}]};
-
-
-    const editorState = EditorState.createWithContent(convertFromRaw(raw));
+    const { data, thekey, extra, pageActions } = this.props;
+    const { editorState } = this.state;
 
     return (
       <ChartCard extra={<Tag color="blue">Week {thekey.week} </Tag>} bordered={false} key={1}>
 
-        <HeadlineCreator2 onChange={this.onChange('editorState2')} readonly editorState={editorState} flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)}></HeadlineCreator2>
+        <CustomMentionEditor readOnly flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
 
         <span style={{display: 'inline-block', 'float': 'right', 'paddingBottom': '10px'}}>
                 <Tag color="magenta">racist</Tag>

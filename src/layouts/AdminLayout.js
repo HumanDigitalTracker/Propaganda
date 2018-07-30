@@ -19,7 +19,7 @@ import borders from '../assets/allcountries';
 import heatmap_bad from '../assets/heatmap_bad.geojson';
 import heatmap_good from '../assets/heatmap_good.geojson';
 
-import HeadlineCreator from "../components/Admin/HeadlineCreator";
+import CustomMentionEditor from "../components/Admin/CustomComponentMentionEditor";
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoibW9nbW9nIiwiYSI6ImNpZmI2eTZuZTAwNjJ0Y2x4a2g4cDIzZTcifQ.qlITXIamvfVj-NCTtAGylw"
@@ -39,7 +39,7 @@ export default class Admin extends Component {
   raw = {"entityMap": {"1": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(236,222,239,0)", 0.2, "rgb(208,209,230)", 0.4, "rgb(166,189,219)", 0.6, "rgb(103,169,207)", 0.8, "rgb(28,144,153)"], "data": "heatmap_bad", "name": "Somewhere Bad", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}, "0": {"data": {"mention": {"name": "North Pitsburgh", "geojson": {"duration": 1000, "center": [-79.92606, 40.34961], "zoom": 12}}}, "type": "@Rmention", "mutability": "SEGMENTED"}, "2": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(12,34,239,0)", 0.2, "rgb(13,45,230)", 0.4, "rgb(12,18,219)", 0.6, "rgb(12,19,207)", 0.8, "rgb(1,144,153)"], "data": "heatmap_good", "name": "Somewhere Good", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}}, "blocks": [{"text": "dgfdf North Pitsburgh Somewhere Bad and somewher good Somewhere Good ", "entityRanges": [{"length": 15, "key": 0, "offset": 6}, {"length": 13, "key": 1, "offset": 22}, {"length": 14, "key": 2, "offset": 54}], "depth": 0, "data": {}, "key": "bs0hs", "inlineStyleRanges": [], "type": "unstyled"}]};
 
   state = {
-    editorState1: EditorState.createWithContent(convertFromRaw(this.raw)),
+    editorState: EditorState.createWithContent(convertFromRaw(this.raw)),
     group : 3
   }
 
@@ -53,19 +53,11 @@ export default class Admin extends Component {
 
   addBorder(data, colours) {
 
-    // this.map.addSource('borders', {
-    //   type: 'geojson',
-    //   data: borders,
-    // });
-
     try {
-
 
       this.map.removeLayer('trees-heat');
       this.map.removeLayer('trees-point');
-
       this.map.removeSource('trees');
-
 
     } catch(e) {
 
@@ -173,23 +165,23 @@ export default class Admin extends Component {
   createCard() {
     const {dispatch} = this.props;
 
-    const { editorState1, group } = this.state;
+    const { editorState, group } = this.state;
 
     dispatch({
       type: 'card/createquestioncard',
-      payload: {component : 'ArticleCard', key : {"type" : "group", week : 34, "id" : group}, data : convertToRaw(editorState1.getCurrentContent())},
+      payload: {component : 'ArticleCard', key : {"type" : "group", week : 34, "id" : group}, data : convertToRaw(editorState.getCurrentContent())},
     })
 
   }
 
-
-  onChange = (editorStateKey) => (editorState) => {
-    this.setState({ [editorStateKey]: editorState });
+  onChange = (editorState) => {
+    this.setState({editorState : editorState });
   }
 
   render() {
 
     const that = this;
+    const { editorState } = this.state;
 
     return (
       <div>
@@ -205,7 +197,8 @@ export default class Admin extends Component {
               <Select.Option value={1}>ISIS</Select.Option>
             </Select>
 
-            <HeadlineCreator readonly={false} editorState={this.state.editorState1} onChange={this.onChange('editorState1')} flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)}></HeadlineCreator>
+            <CustomMentionEditor editorState={ editorState } onChange={ this.onChange.bind(this) } flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} />
+
             <Button onClick={this.createCard.bind(this)}>Create Article</Button>
 
           </Col>

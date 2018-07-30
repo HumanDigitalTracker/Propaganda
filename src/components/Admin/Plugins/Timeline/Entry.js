@@ -1,6 +1,7 @@
+import React, {Component} from 'react'
 import {Popover, Icon, Tag} from 'antd';
 
-const scrollingEntry = (props) => {
+const timelineEntry = (props) => {
   const {
     mention,
     theme,
@@ -11,13 +12,11 @@ const scrollingEntry = (props) => {
 
   return (
     <div {...parentProps}>
-      <span>
-
-        {mention.name}
-
+        <span>
+          {mention.name}
         </span>
     </div>
   );
 };
 
-export default scrollingEntry;
+export default timelineEntry;

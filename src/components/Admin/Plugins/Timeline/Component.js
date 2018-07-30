@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {Popover, Icon, Tag, Timeline} from 'antd';
-import styles from './scrolling.less';
 
-const scrollingComponent = (mentionProps) => {
+const timelineComponent = (mentionProps) => {
 
   return (
     <span>
@@ -14,6 +13,8 @@ const scrollingComponent = (mentionProps) => {
 
           <Timeline.Item color="red">
               <p>1/4/2018  Posted on facebook</p>
+              <p></p>
+              <p></p>
             </Timeline.Item>
 
           <Timeline.Item>
@@ -25,4 +26,4 @@ const scrollingComponent = (mentionProps) => {
   )
 }
 
-export default scrollingComponent;
+export default timelineComponent;
