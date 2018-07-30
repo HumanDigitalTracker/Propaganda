@@ -76,7 +76,7 @@ export const getRouterData = app => {
     },
 
     '/admin': {
-      component: dynamicWrapper(app, ['content'], () => import('../layouts/AdminLayout')),
+      component: dynamicWrapper(app, ['content', 'card'], () => import('../layouts/AdminLayout')),
     },
 
     '/dashboard/analysis': {

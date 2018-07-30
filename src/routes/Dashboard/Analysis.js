@@ -86,7 +86,7 @@ export default class Analysis extends Component {
     const {dispatch} = this.props;
     dispatch({
       type: 'card/fetchquestioncards',
-      payload: {userId: 1, key: {'type' : 'targetgroup', id: targetgroup.id}}
+      payload: {userId: 1, key: {'type' : 'group', id: targetgroup.id}}
     }).then((x)=> {
       this.forceUpdate();
     });
@@ -96,19 +96,6 @@ export default class Analysis extends Component {
 
 
   render() {
-
-    const mentionUsers = [
-      {
-        name: 'Steven Iseki',
-        link: 'https://github.com/steveniseki',
-        avatar: 'https://avatars1.githubusercontent.com/u/6695114?v=3&s=400',
-      },
-      {
-        name: 'Nik Graf',
-        link: 'https://github.com/nikgraf',
-        avatar: 'https://avatars2.githubusercontent.com/u/223045?v=3&s=400',
-      }
-    ]
 
     const {isSqueezed} = this.state;
     const {targetgroup, card} = this.props;
@@ -144,7 +131,7 @@ export default class Analysis extends Component {
 
                       <div style={{'width': width}} id="rowChild19929" className="flexChild rounded bordered">
 
-                        <ul style={{'list-style': 'none'}}>
+                        <ul style={{'listStyle': 'none'}}>
                           {targetgroup.list.map((tg) => <li onClick={(e) => {
                             this.loadTargetGroup(tg)
                           }}>{tg.name}</li>)}
@@ -158,7 +145,14 @@ export default class Analysis extends Component {
                   {
                     ({width}) => (
                       <div style={{'width': `${width}px`}} id="rowChild14954" className="flexChild rounded bordered">
-                        <CardLoader pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} data={card.questioncards.length ? card.questioncards[0].data : undefined} card={'HeadlineCard'}/>
+
+                        {card.questioncards[0] && <CardLoader key={1} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[0].key } data={ card.questioncards[0].data } card={'HeadlineCard'}/> }
+
+                        {card.questioncards[1] && <CardLoader key={2} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[1].key } data={ card.questioncards[1].data } card={'HeadlineCard'}/> }
+
+                        {card.questioncards[2] && <CardLoader key={3} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[2].key } data={ card.questioncards[2].data } card={'HeadlineCard'}/> }
+
+                        {card.questioncards[3] && <CardLoader key={4} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[3].key } data={ card.questioncards[3].data } card={'HeadlineCard'}/> }
 
                         <Button onClick={this.handlePageSqueeze.bind(this)}>Toggle</Button>
 

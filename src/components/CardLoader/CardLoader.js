@@ -17,7 +17,7 @@ class CardLoader extends Component {
   }
 
   render() {
-
+    console.log(this.props);
     const Card = mappings[this.props.card];
     const extra = this.props.extra;
     const clickevents = this.props.clickevents;
@@ -26,7 +26,7 @@ class CardLoader extends Component {
 
     return (
       <div>
-        <Card pageActions={this.props.pageActions} data={this.props.data} clickevents={clickevents} extra={extra}  />
+        <Card pageActions={this.props.pageActions} thekey={this.props.thekey} data={this.props.data} clickevents={clickevents} extra={extra}  />
       </div>
     );
   }

@@ -11,11 +11,14 @@ import {
   ItalicButton,
   BoldButton,
   UnderlineButton,
+  CodeButton,
   HeadlineOneButton,
   HeadlineTwoButton,
   HeadlineThreeButton,
   UnorderedListButton,
   OrderedListButton,
+  BlockquoteButton,
+  CodeBlockButton,
 } from 'draft-js-buttons';
 
 
@@ -27,9 +30,6 @@ import Search from './Plugins/Search';
 
 import definitionComponent from './Plugins/Definition/Component';
 import DefinitionEntry from './Plugins/Definition/Entry';
-
-import scrollingComponent from './Plugins/Scrolling/Component';
-import ScrollingEntry from './Plugins/Scrolling/Entry';
 
 import contentComponent from './Plugins/Content/Component';
 import ContentEntry from './Plugins/Content/Entry';
@@ -112,7 +112,7 @@ const {Toolbar} = toolbarPlugin;
 
 const imagePlugin = createImagePlugin();
 
-export default class HeadlineCreator extends Component {
+export default class HeadlineCreator2 extends Component {
 
   heatmapPlugin = createMentionPlugin(
     {
@@ -139,13 +139,6 @@ export default class HeadlineCreator extends Component {
     {
       mentionTrigger: '^',
       mentionComponent: contentComponent,
-    }
-  );
-
-  scrollingPlugin = createMentionPlugin(
-    {
-      mentionTrigger: '$$',
-      mentionComponent: scrollingComponent,
     }
   );
 
@@ -214,17 +207,6 @@ export default class HeadlineCreator extends Component {
     this.setState({suggestions: data.list});
   }));
 
-  scrollingSearch = (Search('/api/real/content', (data) => {
-    this.setState({
-      scrolling: [
-        {name: "Actor 1", geojson: {duration: 1000, center: [-79.92606, 40.34961], zoom: 12}},
-        {name: "Actor 2", geojson: {duration: 1000, center: [-79.87606, 40.54961], zoom: 12}},
-        {name: "Actor 3", geojson: {duration: 2000, center: [-79.94606, 40.44961], zoom: 12}}
-
-      ],
-    });
-  }));
-
   regionSearch = (Search('/api/real/content', (data) => {
     this.setState({
       regions: [
@@ -242,7 +224,6 @@ export default class HeadlineCreator extends Component {
     heatmaps: [],
     definitions: [],
     graphs: [],
-    scrolling: [],
   }
 
 
@@ -259,7 +240,7 @@ export default class HeadlineCreator extends Component {
             editorState={editorState}
             onChange={onChange}
             readOnly={readonly}
-            plugins={[toolbarPlugin, this.scrollingPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.regionPlugin, this.heatmapPlugin, imagePlugin]}
+            plugins={[toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.regionPlugin, this.heatmapPlugin, imagePlugin]}
             ref={(element) => {
               this.editor = element
             }}
@@ -273,14 +254,6 @@ export default class HeadlineCreator extends Component {
             onSearchChange={this.graphSearch}
             suggestions={this.state.graphs}
             onClose={() => this.setState({graphs: []})}
-          />
-
-          <this.scrollingPlugin.MentionSuggestions
-            key="343434"
-            entryComponent={ScrollingEntry}
-            onSearchChange={this.scrollingSearch}
-            suggestions={this.state.scrolling}
-            onClose={() => this.setState({scrolling: []})}
           />
 
           <this.definitionPlugin.MentionSuggestions

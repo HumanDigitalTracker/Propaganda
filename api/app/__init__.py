@@ -108,6 +108,14 @@ def create_app(config_name):
       return make_response(jsonify({ 'list' : results })), 200
 
 
+    @app.route('/api/real/cards/new', methods=['POST'])
+    def new_card():
+
+      card = Card(request.data.get('component'), request.data.get('key', {}), request.data.get('data', {}))
+      card.save()
+
+      return make_response(jsonify(card.serialise())), 200
+
     @app.route('/api/real/cards', methods=['POST'])
     def list_cards():
 

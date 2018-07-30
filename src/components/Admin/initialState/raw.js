@@ -1,27 +1,12 @@
 export const raw = {
+  "entityMap": {},
   "blocks": [{
-    "key": "9gm3s",
-    "text": "YOUR CONTENT HERE   ",
-    "type": "unstyled",
+    "text": "Something about taliban",
+    "entityRanges": [],
     "depth": 0,
+    "data": {},
+    "key": "2vhkg",
     "inlineStyleRanges": [],
-    "entityRanges": [],
-    "data": {}
-  }, {
-    "key": "2e1tv",
-    "text": "",
-    "type": "unstyled",
-    "depth": 0,
-    "inlineStyleRanges": [],
-    "entityRanges": [],
-    "data": {}
-  }, {
-    "key": "abq7q",
-    "text": "© Human Digital 2018",
-    "type": "unstyled",
-    "depth": 0,
-    "inlineStyleRanges": [{"offset": 0, "length": 1, "style": "BOLD"}],
-    "entityRanges": [],
-    "data": {}
-  }], "entityMap": {}
+    "type": "unstyled"
+  }]
 }
