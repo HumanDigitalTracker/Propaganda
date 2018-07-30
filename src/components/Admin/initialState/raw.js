@@ -1,12 +1,12 @@
 export const raw = {
   "entityMap": {},
   "blocks": [{
-    "text": "Something about taliban",
+    "text": "Copyright Human Digital 2018",
     "entityRanges": [],
     "depth": 0,
     "data": {},
-    "key": "2vhkg",
+    "key": "bs0hs",
     "inlineStyleRanges": [],
     "type": "unstyled"
   }]
-}
+};

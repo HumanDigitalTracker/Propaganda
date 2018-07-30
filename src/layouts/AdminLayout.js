@@ -36,7 +36,18 @@ const Map = ReactMapboxGl({
 export default class Admin extends Component {
   //EditorState.createEmpty(),
 
-  raw = {"entityMap": {"1": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(236,222,239,0)", 0.2, "rgb(208,209,230)", 0.4, "rgb(166,189,219)", 0.6, "rgb(103,169,207)", 0.8, "rgb(28,144,153)"], "data": "heatmap_bad", "name": "Somewhere Bad", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}, "0": {"data": {"mention": {"name": "North Pitsburgh", "geojson": {"duration": 1000, "center": [-79.92606, 40.34961], "zoom": 12}}}, "type": "@Rmention", "mutability": "SEGMENTED"}, "2": {"data": {"mention": {"colours": ["interpolate", ["linear"], ["heatmap-density"], 0, "rgba(12,34,239,0)", 0.2, "rgb(13,45,230)", 0.4, "rgb(12,18,219)", 0.6, "rgb(12,19,207)", 0.8, "rgb(1,144,153)"], "data": "heatmap_good", "name": "Somewhere Good", "geojson": {"duration": 2000, "center": [-79.94606, 40.44961], "zoom": 12}}}, "type": "@Hmention", "mutability": "SEGMENTED"}}, "blocks": [{"text": "dgfdf North Pitsburgh Somewhere Bad and somewher good Somewhere Good ", "entityRanges": [{"length": 15, "key": 0, "offset": 6}, {"length": 13, "key": 1, "offset": 22}, {"length": 14, "key": 2, "offset": 54}], "depth": 0, "data": {}, "key": "bs0hs", "inlineStyleRanges": [], "type": "unstyled"}]};
+  raw = {
+    "entityMap": {},
+    "blocks": [{
+      "text": "Copyright Human Digital 2018",
+      "entityRanges": [],
+      "depth": 0,
+      "data": {},
+      "key": "bs0hs",
+      "inlineStyleRanges": [],
+      "type": "unstyled"
+    }]
+  };
 
   state = {
     editorState: EditorState.createWithContent(convertFromRaw(this.raw)),
@@ -192,14 +203,18 @@ export default class Admin extends Component {
             <h1>ARTICLE CREATOR</h1>
 
 
+
+            <CustomMentionEditor editorState={ editorState } onChange={ this.onChange.bind(this) } flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} />
+
+
+
+
+            <Button onClick={this.createCard.bind(this)}>Create Article on </Button>
+
             <Select defaultValue={3} style={{ width: 120 }} onChange={this.handleChange.bind(this)}>
               <Select.Option value={3}>Taliban</Select.Option>
               <Select.Option value={1}>ISIS</Select.Option>
             </Select>
-
-            <CustomMentionEditor editorState={ editorState } onChange={ this.onChange.bind(this) } flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} />
-
-            <Button onClick={this.createCard.bind(this)}>Create Article</Button>
 
           </Col>
 
