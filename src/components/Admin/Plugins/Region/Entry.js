@@ -9,8 +9,6 @@ const regionEntry = (props) => {
     ...parentProps
   } = props;
 
-
-
   return (
     <div {...parentProps}>
       <span>  <Icon type={'global'}/> {mention.name} </span>

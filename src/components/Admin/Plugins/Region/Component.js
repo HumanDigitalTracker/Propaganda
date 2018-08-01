@@ -5,8 +5,11 @@ const regionComponent = (flyTo, addBorder) => (mentionProps) => {
   return (
     <span
       className={mentionProps.className}
-      onClick={() => {
-        flyTo(mentionProps.mention.geojson);
+      onMouseEnter={() => {
+        addBorder(mentionProps.mention.geojson, false);
+      }}
+      onMouseLeave={() => {
+        addBorder(mentionProps.mention.geojson, true);
       }}
     >
 

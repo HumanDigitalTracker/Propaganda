@@ -56,17 +56,7 @@ class Shrinker extends Component {
 
                 </div>}
 
-                {hover && !isShrunk && <div style={{'position': 'absolute'}}>
 
-                  <Row>
-                    <Col span={24}>
-                      <span style={{fontSize: '24px'}}>Reduce</span>
-                    </Col>
-
-
-                  </Row>
-
-                </div>}
 
 
                 <div style={isShrunk ? {opacity: 0.3} : {opacity: 1.0}}>

@@ -63,7 +63,43 @@ export default class Admin extends Component {
     if (this.map) this.map.flyTo(whereTo);
   }
 
-  addBorder(data, colours) {
+  addBorder(geojson, clear) {
+
+    const map = this.map;
+
+    if (map) {
+
+      try {
+        console.log(geojson);
+        if (map.getLayer('border')) map.removeLayer('border');
+        if (map.getSource('border-source')) map.removeSource('border-source');
+
+        if (!clear) {
+          map.addSource('border-source', {
+            type: 'geojson',
+            data: {"type":"FeatureCollection","features" : [geojson.border]},
+          });
+
+          map.addLayer({
+            'id': 'border',
+            'type': 'fill',
+            'source': 'border-source',
+            'layout': {},
+            'paint': {
+              'fill-color': '#088',
+              'fill-opacity': 0.8,
+            }
+          },'waterway-label');
+        }
+
+
+      } catch (e) {
+      }
+    }
+  }
+
+
+  addHeatmap(data, colours) {
 
     try {
 

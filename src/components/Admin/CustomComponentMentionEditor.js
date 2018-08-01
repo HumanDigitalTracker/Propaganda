@@ -21,6 +21,9 @@ import createMentionPlugin from 'draft-js-mention-plugin';
 
 import Search from "./Plugins/Search";
 
+import regionComponent from './Plugins/Region/Component';
+import RegionEntry from './Plugins/Region/Entry';
+
 import heatmapComponent from './Plugins/Heatmaps/Component';
 import HeatmapEntry from './Plugins/Heatmaps/Entry';
 
@@ -62,6 +65,15 @@ export default class CustomMentionEditor extends Component {
           0.8, 'rgb(1,144,153)'
         ], geojson: {duration: 2000, center: [-79.94606, 40.44961], zoom: 12}
       }]
+    });
+  }));
+
+  regionSearch = (Search('/api/real/content', (data) => {
+    this.setState({
+      regions: [
+        { name: "Iraq",         geojson: {border : {"type":"Feature","id":"IRQ","properties":{"name":"Iraq"},"geometry":{"type":"Polygon","coordinates":[[[45.420618,35.977546],[46.07634,35.677383],[46.151788,35.093259],[45.64846,34.748138],[45.416691,33.967798],[46.109362,33.017287],[47.334661,32.469155],[47.849204,31.709176],[47.685286,30.984853],[48.004698,30.985137],[48.014568,30.452457],[48.567971,29.926778],[47.974519,29.975819],[47.302622,30.05907],[46.568713,29.099025],[44.709499,29.178891],[41.889981,31.190009],[40.399994,31.889992],[39.195468,32.161009],[38.792341,33.378686],[41.006159,34.419372],[41.383965,35.628317],[41.289707,36.358815],[41.837064,36.605854],[42.349591,37.229873],[42.779126,37.385264],[43.942259,37.256228],[44.293452,37.001514],[44.772699,37.170445],[45.420618,35.977546]]]}}, duration: 2000, center: [-79.94606, 40.44961], zoom: 12}},
+        { name: "Syria",        geojson: {border : {"type":"Feature","id":"SYR","properties":{"name":"Syria"},"geometry":{"type":"Polygon","coordinates":[[[38.792341,33.378686],[36.834062,32.312938],[35.719918,32.709192],[35.700798,32.716014],[35.836397,32.868123],[35.821101,33.277426],[36.06646,33.824912],[36.61175,34.201789],[36.448194,34.593935],[35.998403,34.644914],[35.905023,35.410009],[36.149763,35.821535],[36.41755,36.040617],[36.685389,36.259699],[36.739494,36.81752],[37.066761,36.623036],[38.167727,36.90121],[38.699891,36.712927],[39.52258,36.716054],[40.673259,37.091276],[41.212089,37.074352],[42.349591,37.229873],[41.837064,36.605854],[41.289707,36.358815],[41.383965,35.628317],[41.006159,34.419372],[38.792341,33.378686]]]}}, duration: 2000, center: [-79.94606, 40.44961], zoom: 12}},
+       ],
     });
   }));
 
@@ -119,6 +131,14 @@ export default class CustomMentionEditor extends Component {
       }
     );
 
+
+    this.regionPlugin = createMentionPlugin(
+      {
+        mentionTrigger: '@R',
+        mentionComponent: regionComponent(this.props.flyTo, this.props.addBorder),
+      }
+    );
+
     this.graphPlugin = createMentionPlugin(
       {
         mentionTrigger: '@G',
@@ -147,6 +167,7 @@ export default class CustomMentionEditor extends Component {
     graphs: [],
     contents: [],
     definitions: [],
+    regions : [],
   };
 
   focus = () => {
@@ -156,12 +177,14 @@ export default class CustomMentionEditor extends Component {
   render() {
 
     const {editorState, onChange, onHeadlineChange, readOnly} = this.props;
-    const {definitions, graphs, contents, heatmaps} = this.state;
+    const { definitions, graphs, contents, heatmaps, regions } = this.state;
 
     const GraphSuggestions = this.graphPlugin.MentionSuggestions;
     const ContentSuggestions = this.contentPlugin.MentionSuggestions;
     const DefinitionSuggestions = this.definitionPlugin.MentionSuggestions;
     const HeatmapSuggestions = this.heatmapPlugin.MentionSuggestions;
+    const RegionSuggestions = this.regionPlugin.MentionSuggestions;
+
     const {Toolbar} = this.toolbarPlugin;
 
     return (
@@ -176,7 +199,7 @@ export default class CustomMentionEditor extends Component {
             readOnly={readOnly}
             editorState={editorState}
             onChange={onChange}
-            plugins={[this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
+            plugins={[this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
             ref={(element) => {
               this.editor = element;
             }}
@@ -213,6 +236,14 @@ export default class CustomMentionEditor extends Component {
             onSearchChange={this.heatmapSearch}
             suggestions={heatmaps}
             onClose={() => this.setState({heatmaps: []})}
+          />
+
+          <RegionSuggestions
+            key={6}
+            entryComponent={RegionEntry}
+            onSearchChange={this.regionSearch}
+            suggestions={regions}
+            onClose={() => this.setState({regions: []})}
           />
 
         </div>
