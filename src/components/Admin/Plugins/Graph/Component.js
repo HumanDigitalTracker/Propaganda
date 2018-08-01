@@ -41,8 +41,6 @@ const graphComponent = (mentionProps) => {
           <Popover content={content} title={mentionProps.mention.name} overlayStyle={{width: '600px'}}>
             {mentionProps.mention.name}
 
-            {mentionProps.className}
-
             <Icon type={'area-chart'}/>
           </Popover>
     </span>

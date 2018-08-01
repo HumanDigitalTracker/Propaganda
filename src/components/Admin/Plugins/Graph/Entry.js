@@ -1,6 +1,6 @@
 import {Popover, Icon, Tag} from 'antd';
 
-const definitionEntry = (props) => {
+const graphEntry = (props) => {
   const {
     mention,
     theme,
@@ -18,4 +18,4 @@ const definitionEntry = (props) => {
   );
 };
 
-export default definitionEntry;
+export default graphEntry;

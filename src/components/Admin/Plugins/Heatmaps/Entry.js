@@ -10,18 +10,8 @@ const heatmapEntry = (props) => {
   } = props;
 
   return (
-    <div {...parentProps} className='mentionSuggestions'>
-      <div className={'mentionSuggestionsEntryContainer'}>
-        <div className={'mentionSuggestionsEntryContainerLeft'}>
-          jkuhjggg
-        </div>
-        <div className={'mentionSuggestionsEntryContainerRight'}>
-          jhjhh
-          <div className={'mentionSuggestionsEntryTitle'}>
-            jghghggg
-          </div>
-        </div>
-      </div>
+    <div {...parentProps}>
+      <span>  <Icon type={'global'}/> {mention.name} </span>
     </div>
   );
 };

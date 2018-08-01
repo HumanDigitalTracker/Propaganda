@@ -129,7 +129,7 @@ export default class CustomMentionEditor extends Component {
     this.contentPlugin = createMentionPlugin(
       {
         mentionTrigger: '^',
-        mentionComponent: contentComponent,
+        mentionComponent: contentComponent((e) => {this.props.addCard(e)}),
       }
     );
 

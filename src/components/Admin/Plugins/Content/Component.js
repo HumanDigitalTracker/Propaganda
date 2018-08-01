@@ -1,9 +1,9 @@
-import {Popover, Icon, Tag} from 'antd';
+import {Popover, Icon, Tag, Button } from 'antd';
 import YouTube from 'react-youtube';
 import { Document, Page } from 'react-pdf';
 import Facebook from "../../../Content/Facebook/Facebook";
 
-const contentComponent = (mentionProps) => {
+const contentComponent = (saveContent) => (mentionProps) => {
 
   const opts = {
     height: '200',
@@ -19,6 +19,8 @@ const contentComponent = (mentionProps) => {
       <p>
         <Tag color="red">
         <Icon type={'notification'}/> ISIS</Tag>
+        Shares : 123
+        <Button> Save content </Button>
       </p>
 
       <Document
@@ -36,6 +38,10 @@ const contentComponent = (mentionProps) => {
         <Tag color="red"> <Icon type={'notification'}/> ISIS</Tag>
       </p>
 
+      <p>
+        Shares : 123
+      </p>
+
       <YouTube
         videoId={mentionProps.mention.url.split("v=")[1]}
         opts={opts}
@@ -47,17 +53,18 @@ const contentComponent = (mentionProps) => {
   const facebook_content = (
     <div>
       <Facebook></Facebook>
+      Shares : 123
+      <Button> Save content </Button>
     </div>
   );
 
   const typemap = {'youtube' : youtube_content, 'pdf' : pdf_content, 'facebook' : facebook_content};
 
   return (
-    <span
-      className={mentionProps.className}
+    <span className={'mention'}
     >
 
-          <Popover content={typemap[mentionProps.mention.type] || <span>unknown</span>} title={mentionProps.mention.title}>
+          <Popover content={typemap[mentionProps.mention.type] || <span>unknown</span>} title={<span> {mentionProps.mention.title} <a className="doNotToggle" style={{float : 'right'}} onClick={(e) => {saveContent(mentionProps.mention)}}> Save content </a> </span>}>
 
             {mentionProps.mention.type === 'youtube' && <Icon type={'youtube'}/> }
 

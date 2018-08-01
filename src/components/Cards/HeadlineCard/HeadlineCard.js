@@ -22,8 +22,8 @@ class Shrinker extends Component {
   };
 
 
-  toggle() {
-    this.setState({isShrunk: !this.state.isShrunk});
+  toggle(e, data) {
+    if (e.target.getAttribute("class") !== 'doNotToggle') this.setState({isShrunk: !this.state.isShrunk});
   }
 
   hover() {
@@ -37,8 +37,8 @@ class Shrinker extends Component {
     const {children} = this.props;
 
     return (
-      <div onMouseLeave={this.hover.bind(this)} onMouseEnter={this.hover.bind(this)} onClick={this.toggle.bind(this)}>
-        <Motion style={{height: spring((isShrunk ? 150 : 600))}}>
+      <div id="tyresrtrt" onMouseLeave={this.hover.bind(this)} onMouseEnter={this.hover.bind(this)} onClick={this.toggle.bind(this)}>
+        <Motion style={{height: spring((isShrunk ? 150 : 300))}}>
           {
             ({height}) => (
               <div style={{'overflow': 'hidden', 'height': height + 'px'}}>
@@ -97,20 +97,14 @@ class HeadlineCard extends Component {
     this.setState({ 'editorState': editorState });
   }
 
-  flyTo() {
-    alert(1);
-  }
-
-  addBorder() {
-    alert(2);
-  }
-
-  save(json) {
-    // console.log(json)
-  }
-
   render() {
+
+
+
     const { data, thekey, extra, pageActions } = this.props;
+
+    console.log(pageActions);
+
     const { editorState, headline } = this.state;
 
     return (
@@ -119,7 +113,7 @@ class HeadlineCard extends Component {
         <h1> {headline} </h1>
 
        <Shrinker>
-          <CustomMentionEditor readOnly flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
+          <CustomMentionEditor readOnly addCard={pageActions.addCard.bind(this)} flyTo={pageActions.flyTo.bind(this)} addBorder={pageActions.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
        </Shrinker>
 
       </ChartCard>

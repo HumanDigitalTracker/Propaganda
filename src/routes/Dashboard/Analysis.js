@@ -1,6 +1,9 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'dva';
 
+import heatmap_bad from './../../assets/heatmap_bad.geojson';
+import heatmap_good from './../../assets/heatmap_good.geojson';
+
 import {
   Row,
   Col,
@@ -36,12 +39,13 @@ import {Motion, spring} from 'react-motion';
 
 import styles from './Analysis.less';
 
-import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
+import ReactMapboxGl, {Layer, Feature, Marker} from "react-mapbox-gl";
 
 const Map = ReactMapboxGl({
   accessToken: "pk.eyJ1IjoibW9nbW9nIiwiYSI6ImNpZmI2eTZuZTAwNjJ0Y2x4a2g4cDIzZTcifQ.qlITXIamvfVj-NCTtAGylw"
 });
 
+import YouTube from 'react-youtube';
 
 import CardJSONEditor from "components/CardJSONEditor/CardJSONEditor";
 import CardLoader from "components/CardLoader/CardLoader";
@@ -75,7 +79,8 @@ const Yuan = ({children}) => (
 export default class Analysis extends Component {
   state = {
     isMobile: false,
-    isSqueezed: false
+    isSqueezed: false,
+    contents : []
   };
 
   componentDidMount() {
@@ -88,7 +93,7 @@ export default class Analysis extends Component {
 
     dispatch({
       type: 'card/fetchquestioncards',
-      payload: {userId: 1, key: {'type' : 'group', id: 3}}
+      payload: {userId: 1, key: {'type': 'group', id: 1}}
     });
 
 
@@ -102,19 +107,139 @@ export default class Analysis extends Component {
     const {dispatch} = this.props;
     dispatch({
       type: 'card/fetchquestioncards',
-      payload: {userId: 1, key: {'type' : 'group', id: targetgroup.id}}
-    }).then((x)=> {
+      payload: {userId: 1, key: {'type': 'group', id: targetgroup.id}}
+    }).then((x) => {
       this.forceUpdate();
     });
   }
 
+  addCard(mention) {
+    this.setState({ contents: [...this.state.contents, mention] })
+  }
 
+  flyTo(whereTo) {
+    if (this.map) this.map.flyTo(whereTo);
+  }
+
+  addBorder(data, colours) {
+
+    if (this.map) {
+
+      try {
+
+        this.map.removeLayer('trees-heat');
+        this.map.removeLayer('trees-point');
+        this.map.removeSource('trees');
+
+      } catch (e) {
+
+      }
+
+      this.map.addSource('trees', {
+        type: 'geojson',
+        data: (data === 'heatmap_bad' ? heatmap_bad : heatmap_good)
+      });
+
+      this.map.addLayer({
+        id: 'trees-heat',
+        type: 'heatmap',
+        source: 'trees',
+        maxzoom: 15,
+        paint: {
+          // increase weight as diameter breast height increases
+          'heatmap-weight': {
+            property: 'dbh',
+            type: 'exponential',
+            stops: [
+              [1, 0],
+              [62, 1]
+            ]
+          },
+          // increase intensity as zoom level increases
+          'heatmap-intensity': {
+            stops: [
+              [11, 1],
+              [15, 3]
+            ]
+          },
+          // assign color values be applied to points depending on their density
+          'heatmap-color': colours,
+          // increase radius as zoom increases
+          'heatmap-radius': {
+            stops: [
+              [11, 15],
+              [15, 20]
+            ]
+          },
+          // decrease opacity to transition into the circle layer
+          'heatmap-opacity': {
+            default: 1,
+            stops: [
+              [14, 1],
+              [15, 0]
+            ]
+          },
+        }
+      }, 'waterway-label');
+
+      this.map.addLayer({
+        id: 'trees-point',
+        type: 'circle',
+        source: 'trees',
+        minzoom: 14,
+        paint: {
+          // increase the radius of the circle as the zoom level and dbh value increases
+          'circle-radius': {
+            property: 'dbh',
+            type: 'exponential',
+            stops: [
+              [{zoom: 15, value: 1}, 5],
+              [{zoom: 15, value: 62}, 10],
+              [{zoom: 22, value: 1}, 20],
+              [{zoom: 22, value: 62}, 50],
+            ]
+          },
+          'circle-color': {
+            property: 'dbh',
+            type: 'exponential',
+            stops: [
+              [0, 'rgba(236,222,239,0)'],
+              [10, 'rgb(236,222,239)'],
+              [20, 'rgb(208,209,230)'],
+              [30, 'rgb(166,189,219)'],
+              [40, 'rgb(103,169,207)'],
+              [50, 'rgb(28,144,153)'],
+              [60, 'rgb(1,108,89)']
+            ]
+          },
+          'circle-stroke-color': 'white',
+          'circle-stroke-width': 1,
+          'circle-opacity': {
+            stops: [
+              [14, 0],
+              [15, 1]
+            ]
+          }
+        }
+      }, 'waterway-label');
+
+      const that = this;
+
+      that.map.on('click', 'trees-point', function (e) {
+        new MapboxGl.Popup()
+          .setLngLat(e.features[0].geometry.coordinates)
+          .setHTML('<b>SOMETHING:</b> ' + e.features[0].properties.dbh)
+          .addTo(that.map);
+      });
+    }
+
+  }
 
 
   render() {
 
-    const {isSqueezed} = this.state;
-    const {targetgroup, card} = this.props;
+    const { isSqueezed, contents } = this.state;
+    const { card } = this.props;
     const that = this;
 
     const topColResponsiveProps = {
@@ -130,9 +255,26 @@ export default class Analysis extends Component {
       <div className={styles.flexboxlayout}>
 
 
-
         <div>
+
+
+
           <div id="container" className="flexcanvas flexChild columnParent">
+
+            <div id="columnChild82623" className="flexChild">
+
+              <ul style={{listStyle : 'none', marginRight : '320px'}}>
+                {contents.map((item) => <li style={{padding: '4px', float : 'right'}}>
+
+                  <YouTube
+                    videoId={item.url.split("v=")[1]}
+                    opts={{ height: '60', width: '60', playerVars: { autoplay: 0, modestbranding: true } }}
+                  />
+
+                </li>)}
+              </ul>
+
+            </div>
 
             <div id="columnChild9707" className="flexChild rowParent">
               <div id="rowChild30953" className="flexChild rowParent">
@@ -152,8 +294,16 @@ export default class Analysis extends Component {
                 <Motion key={2} style={{width: spring(isSqueezed ? 500 : 750)}}>
                   {
                     ({width}) => (
-                      <div style={{'background' : 'white', 'marginTop': '91px', 'marginLeft': '96px', width: '946px' }} id="rowChild14954" className="flexChild rounded">
-                        {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ thecard.key } data={ thecard.data } card={thecard.component}/><Divider /></span> ) }
+                      <div style={{'background': 'white', 'marginTop': '76px', 'marginLeft': '96px', width: '946px'}}
+                           id="rowChild14954" className="flexChild rounded">
+                        {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`}
+                                                                                      pageActions={{
+                                                                                        'addCard': this.addCard.bind(this),
+                                                                                        'flyTo': this.flyTo.bind(this),
+                                                                                        'addBorder': this.addBorder.bind(this)
+                                                                                      }} thekey={thecard.key}
+                                                                                      data={thecard.data}
+                                                                                      card={thecard.component}/><Divider/></span>)}
                       </div>)
                   }
 
@@ -171,12 +321,14 @@ export default class Analysis extends Component {
                         <div id="columnChild2978" className="flexChild rounded"></div>
                       </div>
 
-                      <div style={{'paddingTop' : '0px'}} id="columnChild87347" className="flexChild">
+                      <div style={{'paddingTop': '0px'}} id="columnChild87347" className="flexChild">
 
                         <Map
                           style="mapbox://styles/mapbox/light-v9"
                           containerStyle={{
-                            height: "100vh",
+                            marginLeft: '-5px',
+                            marginTop: '14px',
+                            height: "600px",
                             width: "838px",
                             position: 'absolute',
                           }}
@@ -184,7 +336,7 @@ export default class Analysis extends Component {
                           onStyleLoad={(map) => {
 
                             that.map = map;
-                            that.map.setCenter( [ 44.361488, 33.312805 ]);
+                            that.map.setCenter([44.361488, 33.312805]);
                           }}
                         >
 
