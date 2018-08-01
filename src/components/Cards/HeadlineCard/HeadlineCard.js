@@ -24,10 +24,6 @@ class Shrinker extends Component {
 
   toggle() {
     this.setState({isShrunk: !this.state.isShrunk});
-
-    if (this.props.pageActions.handlePageSqueeze && this.state.isShrunk) {
-      this.props.pageActions.handlePageSqueeze();
-    }
   }
 
   hover() {
@@ -42,12 +38,12 @@ class Shrinker extends Component {
 
     return (
       <div onMouseLeave={this.hover.bind(this)} onMouseEnter={this.hover.bind(this)} onClick={this.toggle.bind(this)}>
-        <Motion style={{height: spring((isShrunk ? 150 : 400))}}>
+        <Motion style={{height: spring((isShrunk ? 150 : 600))}}>
           {
             ({height}) => (
               <div style={{'overflow': 'hidden', 'height': height + 'px'}}>
 
-                {isShrunk && hover && <div style={{'position': 'absolute'}}>
+                {isShrunk && <div style={{'position': 'absolute'}}>
 
                   <Row>
                     <Col span={24}>
@@ -59,6 +55,19 @@ class Shrinker extends Component {
                   </Row>
 
                 </div>}
+
+                {hover && !isShrunk && <div style={{'position': 'absolute'}}>
+
+                  <Row>
+                    <Col span={24}>
+                      <span style={{fontSize: '24px'}}>Reduce</span>
+                    </Col>
+
+
+                  </Row>
+
+                </div>}
+
 
                 <div style={isShrunk ? {opacity: 0.3} : {opacity: 1.0}}>
                   {children}
@@ -77,7 +86,7 @@ class HeadlineCard extends Component {
   constructor(props) {
     super(props);
     this.schema = schema;
-    this.state = {adminmodal: false, flipped: false, editorState : EditorState.createWithContent(convertFromRaw( props.data ))};
+    this.state = {adminmodal: false, flipped: false, headline : props.data.headline, editorState : EditorState.createWithContent(convertFromRaw( props.data.editorState ))};
   }
 
   shouldComponentUpdate() {
@@ -102,18 +111,16 @@ class HeadlineCard extends Component {
 
   render() {
     const { data, thekey, extra, pageActions } = this.props;
-    const { editorState } = this.state;
+    const { editorState, headline } = this.state;
 
     return (
-      <ChartCard extra={<Tag color="blue">Week {thekey.week} </Tag>} bordered={false} key={1}>
+      <ChartCard bordered={false} key={1}>
 
-        <CustomMentionEditor readOnly flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
+        <h1> {headline} </h1>
 
-        <span style={{display: 'inline-block', 'float': 'right', 'paddingBottom': '10px'}}>
-                <Tag color="magenta">racist</Tag>
-                <Tag color="red">terrorist</Tag>
-                <Tag color="volcano">miliant</Tag>
-        </span>
+       <Shrinker>
+          <CustomMentionEditor readOnly flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
+       </Shrinker>
 
       </ChartCard>
     );

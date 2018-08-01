@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import Editor from 'draft-js-plugins-editor';
 
@@ -12,9 +12,10 @@ import {
   OrderedListButton,
 } from 'draft-js-buttons';
 
-import toolbarStyles from './toolbarStyles.less';
 import editorStyles from './editorStyles.less';
 import buttonStyles from './buttonStyles.less';
+import toolbarStyles from './toolbarStyles.less';
+
 
 import createMentionPlugin from 'draft-js-mention-plugin';
 
@@ -142,10 +143,10 @@ export default class CustomMentionEditor extends Component {
   }
 
   state = {
-    heatmaps : [],
-    graphs : [],
-    contents : [],
-    definitions : [],
+    heatmaps: [],
+    graphs: [],
+    contents: [],
+    definitions: [],
   };
 
   focus = () => {
@@ -154,60 +155,67 @@ export default class CustomMentionEditor extends Component {
 
   render() {
 
-    const { editorState, onChange, readOnly } = this.props;
-    const { definitions, graphs, contents, heatmaps } = this.state;
+    const {editorState, onChange, onHeadlineChange, readOnly} = this.props;
+    const {definitions, graphs, contents, heatmaps} = this.state;
 
-    const GraphSuggestions        = this.graphPlugin.MentionSuggestions;
-    const ContentSuggestions      = this.contentPlugin.MentionSuggestions;
-    const DefinitionSuggestions   = this.definitionPlugin.MentionSuggestions;
-    const HeatmapSuggestions      = this.heatmapPlugin.MentionSuggestions;
-    const {Toolbar}               = this.toolbarPlugin;
+    const GraphSuggestions = this.graphPlugin.MentionSuggestions;
+    const ContentSuggestions = this.contentPlugin.MentionSuggestions;
+    const DefinitionSuggestions = this.definitionPlugin.MentionSuggestions;
+    const HeatmapSuggestions = this.heatmapPlugin.MentionSuggestions;
+    const {Toolbar} = this.toolbarPlugin;
 
     return (
 
-      <div className={editorStyles.editor} onClick={this.focus}>
+      <div>
 
-        <Editor
-          readOnly={readOnly}
-          editorState={ editorState}
-          onChange={onChange}
-          plugins={[this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin ]}
-          ref={(element) => { this.editor = element; }}
-        />
+        {!readOnly && <input onChange={onHeadlineChange} />}
 
-        { !readOnly && <Toolbar/> }
+        <div className={editorStyles.editor} onClick={this.focus}>
 
-        <DefinitionSuggestions
-          key={2}
-          entryComponent={DefinitionEntry}
-          onSearchChange={this.definitionSearch}
-          suggestions={ definitions }
-          onClose={() => this.setState({definitions: []})} />
+          <Editor
+            readOnly={readOnly}
+            editorState={editorState}
+            onChange={onChange}
+            plugins={[this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
+            ref={(element) => {
+              this.editor = element;
+            }}
+          />
 
-        <GraphSuggestions
-          key={3}
-          entryComponent={GraphEntry}
-          onSearchChange={this.graphSearch}
-          suggestions={ graphs }
-          onClose={() => this.setState({graphs: []})}
-        />
+          {!readOnly && <Toolbar/>}
 
-        <ContentSuggestions
-          key={4}
-          entryComponent={ContentEntry}
-          onSearchChange={this.contentSearch}
-          suggestions={ contents }
-          onClose={() => this.setState({contents: []})}
-        />
+          <DefinitionSuggestions
+            key={2}
+            entryComponent={DefinitionEntry}
+            onSearchChange={this.definitionSearch}
+            suggestions={definitions}
+            onClose={() => this.setState({definitions: []})}/>
 
-        <HeatmapSuggestions
-          key={5}
-          entryComponent={HeatmapEntry}
-          onSearchChange={this.heatmapSearch}
-          suggestions={ heatmaps }
-          onClose={() => this.setState({heatmaps: []})}
-        />
+          <GraphSuggestions
+            key={3}
+            entryComponent={GraphEntry}
+            onSearchChange={this.graphSearch}
+            suggestions={graphs}
+            onClose={() => this.setState({graphs: []})}
+          />
 
+          <ContentSuggestions
+            key={4}
+            entryComponent={ContentEntry}
+            onSearchChange={this.contentSearch}
+            suggestions={contents}
+            onClose={() => this.setState({contents: []})}
+          />
+
+          <HeatmapSuggestions
+            key={5}
+            entryComponent={HeatmapEntry}
+            onSearchChange={this.heatmapSearch}
+            suggestions={heatmaps}
+            onClose={() => this.setState({heatmaps: []})}
+          />
+
+        </div>
       </div>
     );
   }

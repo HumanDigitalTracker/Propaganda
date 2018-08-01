@@ -50,6 +50,7 @@ export default class Admin extends Component {
   };
 
   state = {
+    headline : '',
     editorState: EditorState.createWithContent(convertFromRaw(this.raw)),
     group : 3
   }
@@ -176,13 +177,18 @@ export default class Admin extends Component {
   createCard() {
     const {dispatch} = this.props;
 
-    const { editorState, group } = this.state;
+    const { editorState, group, headline } = this.state;
 
     dispatch({
       type: 'card/createquestioncard',
-      payload: {component : 'ArticleCard', key : {"type" : "group", week : 34, "id" : group}, data : convertToRaw(editorState.getCurrentContent())},
+      payload: {component : 'HeadlineCard', key : {"type" : "group", week : 34, "id" : group}, data : { headline, editorState : convertToRaw(editorState.getCurrentContent())}},
     })
 
+  }
+
+  onHeadlineChange = (e) => {
+    console.log(e);
+    this.setState({headline : e.target.value});
   }
 
   onChange = (editorState) => {
@@ -204,7 +210,7 @@ export default class Admin extends Component {
 
 
 
-            <CustomMentionEditor editorState={ editorState } onChange={ this.onChange.bind(this) } flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} />
+            <CustomMentionEditor editorState={ editorState } onHeadlineChange={this.onHeadlineChange.bind(this)} onChange={ this.onChange.bind(this) } flyTo={this.flyTo.bind(this)} addBorder={this.addBorder.bind(this)} />
 
 
 

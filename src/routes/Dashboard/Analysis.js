@@ -13,7 +13,8 @@ import {
   Tooltip,
   Menu,
   Dropdown,
-  Button
+  Button,
+  Divider
 } from 'antd';
 import numeral from 'numeral';
 import {
@@ -34,6 +35,13 @@ import {getTimeDistance} from '../../utils/utils';
 import {Motion, spring} from 'react-motion';
 
 import styles from './Analysis.less';
+
+import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
+
+const Map = ReactMapboxGl({
+  accessToken: "pk.eyJ1IjoibW9nbW9nIiwiYSI6ImNpZmI2eTZuZTAwNjJ0Y2x4a2g4cDIzZTcifQ.qlITXIamvfVj-NCTtAGylw"
+});
+
 
 import CardJSONEditor from "components/CardJSONEditor/CardJSONEditor";
 import CardLoader from "components/CardLoader/CardLoader";
@@ -72,10 +80,18 @@ export default class Analysis extends Component {
 
   componentDidMount() {
     const {dispatch} = this.props;
+
     dispatch({
       type: 'targetgroup/fetch',
       payload: {userId: 1}
     });
+
+    dispatch({
+      type: 'card/fetchquestioncards',
+      payload: {userId: 1, key: {'type' : 'group', id: 3}}
+    });
+
+
   }
 
   handlePageSqueeze() {
@@ -99,6 +115,7 @@ export default class Analysis extends Component {
 
     const {isSqueezed} = this.state;
     const {targetgroup, card} = this.props;
+    const that = this;
 
     const topColResponsiveProps = {
       xs: 24,
@@ -117,25 +134,16 @@ export default class Analysis extends Component {
         <div>
           <div id="container" className="flexcanvas flexChild columnParent">
 
-            <div id="columnChild82623" className="flexChild rounded bordered">
-              TOP BAR
-            </div>
-
             <div id="columnChild9707" className="flexChild rowParent">
               <div id="rowChild30953" className="flexChild rowParent">
 
 
-                <Motion key={1} style={{width: spring(isSqueezed ? 100 : 300)}}>
+                <Motion key={1} style={{width: spring(isSqueezed ? 100 : 250)}}>
                   {
                     ({width}) => (
 
-                      <div style={{'width': width}} id="rowChild19929" className="flexChild rounded bordered">
+                      <div style={{'width': width}} id="rowChild19929" className="flexChild rounded">
 
-                        <ul style={{'listStyle': 'none'}}>
-                          {targetgroup.list.map((tg) => <li onClick={(e) => {
-                            this.loadTargetGroup(tg)
-                          }}>{tg.name}</li>)}
-                        </ul>
                       </div>
 
                     )}
@@ -144,66 +152,45 @@ export default class Analysis extends Component {
                 <Motion key={2} style={{width: spring(isSqueezed ? 500 : 750)}}>
                   {
                     ({width}) => (
-                      <div style={{'width': `${width}px`}} id="rowChild14954" className="flexChild rounded bordered">
-
-                        {card.questioncards[0] && <CardLoader key={1} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[0].key } data={ card.questioncards[0].data } card={'HeadlineCard'}/> }
-
-                        {card.questioncards[1] && <CardLoader key={2} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[1].key } data={ card.questioncards[1].data } card={'HeadlineCard'}/> }
-
-                        {card.questioncards[2] && <CardLoader key={3} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[2].key } data={ card.questioncards[2].data } card={'HeadlineCard'}/> }
-
-                        {card.questioncards[3] && <CardLoader key={4} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ card.questioncards[3].key } data={ card.questioncards[3].data } card={'HeadlineCard'}/> }
-
-                        <Button onClick={this.handlePageSqueeze.bind(this)}>Toggle</Button>
-
+                      <div style={{'background' : 'white', 'marginTop': '91px', 'marginLeft': '96px', width: '946px' }} id="rowChild14954" className="flexChild rounded">
+                        {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`} pageActions={{'handlePageSqueeze' : this.handlePageSqueeze.bind(this)}} thekey={ thecard.key } data={ thecard.data } card={thecard.component}/><Divider /></span> ) }
                       </div>)
                   }
 
                 </Motion>
 
                 <div style={{'position': 'relative', width: '100%', height: '100%', overflow: 'hidden'}}>
-                  <Motion key={3} style={{tween: spring((isSqueezed ? 0 : 100), {stiffness: 190, damping: 46})}}>
-                    {
-                      ({tween}) => (
-                        <div style={{
-                          'position': 'absolute',
-                          width: '100%',
-                          height: '98%',
-                          'transform': 'translateX(' + tween + '%)',
-                          'width': 600
-                        }} id="rowChild19929" className="flexChild columnParent bordered rounded">
-                          <Facebook />
-
-                          <Facebook />
-
-                          <Facebook />
-
-                          <Facebook />
-
-                          <Facebook />
-                        </div>)
-
-                    }
-
-                  </Motion>
                 </div>
               </div>
 
-              <Motion key={4} style={{width: spring(isSqueezed ? 400 : 500)}}>
+              <Motion key={4} style={{width: spring(isSqueezed ? 400 : 836)}}>
                 {
                   ({width}) => (
                     <div style={{'width': width}} id="rowChild12611" className="flexChild columnParent">
                       <div id="columnChild20412" className="flexChild columnParent">
-                        <div id="columnChild2978" className="flexChild rounded bordered"></div>
-
-                        <div id="columnChild44776" className="flexChild rowParent">
-                          <div id="rowChild65574" className="flexChild rounded bordered"></div>
-
-                          <div id="rowChild66891" className="flexChild rounded bordered"></div>
-                        </div>
+                        <div id="columnChild2978" className="flexChild rounded"></div>
                       </div>
 
-                      <div id="columnChild87347" className="flexChild rounded bordered"></div>
+                      <div style={{'paddingTop' : '0px'}} id="columnChild87347" className="flexChild">
+
+                        <Map
+                          style="mapbox://styles/mapbox/light-v9"
+                          containerStyle={{
+                            height: "100vh",
+                            width: "838px",
+                            position: 'absolute',
+                          }}
+
+                          onStyleLoad={(map) => {
+
+                            that.map = map;
+                            that.map.setCenter( [ 44.361488, 33.312805 ]);
+                          }}
+                        >
+
+                        </Map>
+
+                      </div>
                     </div>)
 
                 }

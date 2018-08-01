@@ -1,4 +1,5 @@
 import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, Guide, Shape, Facet, G2, View } from 'bizcharts';
+import { Popover, Icon } from 'antd';
 
 const graphComponent = (mentionProps) => {
 
@@ -22,22 +23,29 @@ const graphComponent = (mentionProps) => {
     }
   };
 
+  const content = <Chart data={data} scale={cols} width={500} height={300}>
+    <Axis name="year" />
+    <Axis name="value" label={{
+      formatter: val => {
+        return (val / 10000).toFixed(1) + 'k';
+      }
+    }} />
+    <Tooltip crosshairs={{type:'line'}}/>
+    <Geom type="area" position="year*value" />
+    <Geom type="line" position="year*value" size={2} />
+  </Chart>;
+
   return (
-    <div>
 
-        <Chart data={data} scale={cols} width={500} height={300}>
-          <Axis name="year" />
-          <Axis name="value" label={{
-            formatter: val => {
-              return (val / 10000).toFixed(1) + 'k';
-            }
-          }} />
-          <Tooltip crosshairs={{type:'line'}}/>
-          <Geom type="area" position="year*value" />
-          <Geom type="line" position="year*value" size={2} />
-        </Chart>
+    <span className={'mention'}>
+          <Popover content={content} title={mentionProps.mention.name} overlayStyle={{width: '600px'}}>
+            {mentionProps.mention.name}
 
-    </div>
+            {mentionProps.className}
+
+            <Icon type={'area-chart'}/>
+          </Popover>
+    </span>
   )
 }
 

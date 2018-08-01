@@ -9,7 +9,7 @@ const definitionComponent = (mentionProps) => {
   );
 
   return (
-    <span className={mentionProps.className}>
+    <span className={'mention'}>
           <Popover content={content} title={mentionProps.mention.name} overlayStyle={{width: '400px'}}>
             {mentionProps.mention.name}
           </Popover>
