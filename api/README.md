@@ -1,19 +1,17 @@
         ```
         $ pip install virtualenv
-        $ virtualenv -p python3 venv
+        $ virtualenv -p python3 env
         $ pip install autoenv
         ```
 
-* #### Environment Variables
-    Create a .env file and add the following:
+* #### Environment Variables (start.sh does this for you)
     ```
     source env/bin/activate
     export APP_SETTINGS="development"
     export DATABASE_URL="postgresql://postgres:postgres@localhost/tracker"
     ```
-  
-  
-  ### To create datbase
+    
+  ### To create the database
   
   psql -U postgres -h localhost
   
@@ -21,12 +19,22 @@
   > create database tracker
   ````
   
+ ### start the database server
+ 
+ ````sudo service postgresql start````
+  
  #### Install your requirements
+ 
+     Remember to run source env/bin/activate before doing this
+ 
     ```
-    (venv)$ pip install -r requirements.txt
+    (env)$ pip install -r requirements.txt
     ```
 
-    Then, make and apply your Migrations
+ #### Apply your Migrations
+ 
+     Remember to run source env/bin/activate before doing this
+ 
     ```
     (env)$ python manage.py db init
 
@@ -38,9 +46,8 @@
     (env)$ python manage.py db upgrade
     ```
 
-    ```
-    (venv)$ flask run
-    ```
+````start.sh````
+
 
 
 
