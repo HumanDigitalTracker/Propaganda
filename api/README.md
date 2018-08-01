@@ -9,7 +9,7 @@
     ```
     source env/bin/activate
     export APP_SETTINGS="development"
-    export DATABASE_URL="postgresql://postgres:postgres@localhost/thing"
+    export DATABASE_URL="postgresql://postgres:postgres@localhost/tracker"
     ```
   
   
@@ -41,14 +41,6 @@
     ```
     (venv)$ flask run
     ```
-
-
-
-  ###to restore from .sql file
-  ````
-  psql -U postgres -d thing -a -f thingout.sql -h localhost
-  psql -U postgres -d thing -a -f populatecardmappings.sql -h localhost
-  ````
 
 
 

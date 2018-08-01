@@ -1,99 +1,66 @@
-English | [简体中文](./README.zh-CN.md)
+English 
 
-# Ant Design Pro
+# Tracker Prototype
 
-[![](https://img.shields.io/travis/ant-design/ant-design-pro/master.svg?style=flat-square)](https://travis-ci.org/ant-design/ant-design-pro)
-[![Build status](https://ci.appveyor.com/api/projects/status/67fxu2by3ibvqtat/branch/master?svg=true)](https://ci.appveyor.com/project/afc163/ant-design-pro/branch/master)
-[![Dependencies](https://img.shields.io/david/ant-design/ant-design-pro.svg)](https://david-dm.org/ant-design/ant-design-pro)
-[![DevDependencies](https://img.shields.io/david/dev/ant-design/ant-design-pro.svg)](https://david-dm.org/ant-design/ant-design-pro#info=devDependencies&view=list)
-[![Gitter](https://badges.gitter.im/ant-design/ant-design-pro.svg)](https://gitter.im/ant-design/ant-design-pro?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+A prototype of a dashboard which is used to track Propaganda.
 
-An out-of-box UI solution for enterprise applications as a React boilerplate.
+- React 16 based
+- Ant Design
+- MapboxGL
+- PYthon / postgres backend
 
-![](https://gw.alipayobjects.com/zos/rmsportal/xEdBqwSzvoSapmnSnYjU.png)
+##What is it?
 
-- Preview: http://preview.pro.ant.design
-- Home Page: http://pro.ant.design
-- Documentation: http://pro.ant.design/docs/getting-started
-- ChangeLog: http://pro.ant.design/docs/changelog
-- FAQ: http://pro.ant.design/docs/faq
-- Mirror Site in China: http://ant-design-pro.gitee.io
+A user interface to allow analysts to record their findings regarding social media postings by terroist groups in the middle east.
 
-## Translation Recruitment :loudspeaker:
+The analysts can apply rich text (headings, italics lists etc) to the text.
 
-We need your help: https://github.com/ant-design/ant-design-pro/issues/120
+In addition, the text editor supports a multitude of plugins that allow embedding data in the rich text. This opens up oportunities to allow the Analysts to define their own definitions, tooltips, add links to content etc.
 
-## Features
+These plugins are activated by various short cuts:
 
-- :gem: **Neat Design**: Follow [Ant Design specification](http://ant.design/)
-- :triangular_ruler: **Common Templates**: Typical templates for enterprise applications
-- :rocket: **State of The Art Development**: Newest development stack of React/dva/antd
-- :iphone: **Responsive**: Designed for variable screen sizes
-- :art: **Theming**: Customizable theme with simple config
-- :globe_with_meridians: **International**: Built-in i18n solution
-- :gear: **Best Practices**: Solid workflow to make your code healthy
-- :1234: **Mock development**: Easy to use mock development solution
-- :white_check_mark: **UI Test**: Fly safely with unit and e2e tests
+- `^` - add content
+- `@R` - add region
+- `@D` - add definiton
+- `@G` - add (hard coded) graph
 
-## Templates
+For example if `^` is pressed, a drop down list of 'content' - ie facebook posts, tweets etc is retreived from the database. 
+The analyst selects one, and then the rich text contains a preview of that content.
 
-```
-- Dashboard
-  - Analytic
-  - Monitor
-  - Workspace
-- Form
-  - Basic Form
-  - Step Form
-  - Advanced From
-- List
-  - Standard Table
-  - Standard List
-  - Card List
-  - Search List (Project/Applications/Article)
-- Profile
-  - Simple Profile
-  - Advanced Profile
-- Result
-  - Success
-  - Failed
-- Exception
-  - 403
-  - 404
-  - 500
-- User
-  - Login
-  - Register
-  - Register Result
-```
 
-## Usage
+## How does it work?
 
-```bash
-$ git clone https://github.com/ant-design/ant-design-pro.git --depth=1
-$ cd ant-design-pro
-$ npm install
-$ npm start         # visit http://localhost:8000
-```
+Currently is is a prototype that is far from fully functional. 
 
-Or you can use the command tool: [ant-design-pro-cli](https://github.com/ant-design/ant-design-pro-cli)
+It uses a designer provided background file to give the illusion of a toolbar etc
 
-```bash
-$ npm install ant-design-pro-cli -g
-$ mkdir pro-demo && cd pro-demo
-$ pro new
-```
+There are 2 screens - an admin view, and a public facing dashboard view.
 
-More instructions at [documentation](http://pro.ant.design/docs/getting-started).
+- http://localhost:3000/#/admin
+- http://localhost:3000/#/dashboard/analysis
 
-## Compatibility
+It uses tmux via the ````start.sh```` command to get the python server, proxy and dev server up and running.
 
-Modern browsers and IE11.
+To use it, you go the admin link, and enter a headline, followed by article text via the test editor (this page is very rough and ready)
 
-## Contributing
+USe the keyboard shortcuts above to enrich the text.
 
-Any type of contribution is welcome, here are some examples of how you may contribute to this project:
+Then select a terrorist group category and click 'Create Article'.
 
-- Use Ant Design Pro in your daily work.
-- Submit [issues](http://github.com/ant-design/ant-design-pro/issues) to report bugs or ask questions.
-- Propose [pull requests](http://github.com/ant-design/ant-design-pro/pulls) to improve our code.
+
+Next, navigate to http://localhost:3000/#/dashboard/analysis
+
+Here, a default group (ISIS) hads been selected. Changing groups is not supported.
+
+You can click on each article, and read the text, along with the rich text additions.
+
+
+##Technical notes
+
+It currently uses a card based system to decide what articles to show. THe benefits of the approach are not really being seem at the moment but at least it keeps the number of apis low.
+
+The benefits would be the ability to create a variety of cards and be able to share them. 
+
+See https://medium.com/@grahambates/card-based-data-visualisation-7683d1c189ef for more details
+
+
