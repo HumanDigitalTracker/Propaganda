@@ -1,0 +1,11 @@
+INSERT INTO public.content (id, type, title, url, created) VALUES (15, 'youtube', 'Eid al-Fitr in Khorosan', 'https://www.youtube.com/watch?v=Oumge03X-uw', '2018-07-26 11:01:37.865000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (16, 'youtube', 'But God Will Perfect His Light', 'https://www.youtube.com/watch?v=WNFhTeYnYhM', '2018-07-26 11:01:42.757000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (19, 'youtube', 'And They Gave Zakah', 'https://www.youtube.com/watch?v=-GmfBeJLgoc', '2018-07-26 11:01:43.690000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (18, 'youtube', 'Victory From God and an Imminent Conquest (4)', 'https://www.youtube.com/watch?v=T9J48XI1trs', '2018-07-26 11:01:44.553000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (20, 'youtube', 'To where Bahrain?', 'https://www.youtube.com/watch?v=2ITpD4vfRzM', '2018-07-26 11:01:45.598000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (11, 'youtube', 'Victory From God and an Imminent Conquest (1)', 'https://www.youtube.com/watch?v=7yBy_kSBM58', '2018-07-26 11:01:30.670000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (14, 'youtube', 'The arrest and beheading of three members from the al-Nusrah Front', 'https://www.youtube.com/watch?v=ZXsi3zbW5Oo', '2018-07-26 11:01:41.449000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (17, 'youtube', 'The destruction of 8 shia militia forces, including a captain, after three IEDs against two vehicles near the Gate of Sham', 'https://www.youtube.com/watch?v=rNx3-R13FtA', '2018-07-26 11:01:33.538000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (12, 'youtube', 'The Fiery Raids 2', 'https://www.youtube.com/watch?v=NUcdH3iQuDo', '2018-07-26 11:01:36.170000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (21, 'pdf', 'Example of PDF', 'http://www.google.co.uk', '2018-07-27 12:08:17.148000');
+INSERT INTO public.content (id, type, title, url, created) VALUES (22, 'facebook', 'Call to arms', 'http://www.facebook.com/sdsdsdsd', '2018-07-27 14:15:55.833000');
