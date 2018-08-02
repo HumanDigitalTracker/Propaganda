@@ -1,4 +1,4 @@
-#### install git!
+#### install git and tmux
 
 sudo apt-get install git tmux
 
@@ -12,12 +12,14 @@ git clone https://github.com/HumanDigitalTracker/Propaganda.git
         ```
         $ sudo apt-get install python-virtualenv
         $ sudo apt-get install python3-pip
-        $ apt-get install python3-setuptools
-        $ easy_install3 pip
+        $ sudo apt-get install python3-setuptools
+        $ sudo easy_install3 pip
         
+        $cd Propaganda
         $ virtualenv -p python3 env
         
         $ source env/bin/activate
+        $ cd api
         $ pip install -r requirements.txt
         ```
 
@@ -40,10 +42,6 @@ git clone https://github.com/HumanDigitalTracker/Propaganda.git
    
   (control d to exit)
   
-  ````
-  > create database tracker;
-  ````
-  
     
   ### Install Node
   
@@ -52,13 +50,13 @@ git clone https://github.com/HumanDigitalTracker/Propaganda.git
   
   
   ### Install js requirements
-  cd 
+  cd ..
   npm install
   
 
  #### Build database
  
-     (Remember to run)
+     (Remember to be in the virtualenvironment and have set the environment variables)
      
        source env/bin/activate
        export APP_SETTINGS="development"
@@ -79,12 +77,10 @@ git clone https://github.com/HumanDigitalTracker/Propaganda.git
 
 ### Populate DB
 
-psql -U postgres -d thing -a -f api/sql/tracker_public_country.sql -h localhost
-psql -U postgres -d thing -a -f api/sql/tracker_public_user.sql -h localhost
-psql -U postgres -d thing -a -f api/sql/tracker_public_userXCountry.sql -h localhost
+psql -U postgres -d tracker -a -f api/sql/tracker_public_country.sql -h localhost
+psql -U postgres -d tracker -a -f api/sql/tracker_public_user.sql -h localhost
+psql -U postgres -d tracker -a -f api/sql/tracker_public_userXCountry.sql -h localhost
 
-
-````chmod 777 start.sh````
 
 ````start.sh````
 
