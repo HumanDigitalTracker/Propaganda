@@ -1,7 +1,7 @@
 import { Chart, Geom, Axis, Tooltip, Coord, Label, Legend, Guide, Shape, Facet, G2, View } from 'bizcharts';
 import { Popover, Icon } from 'antd';
 
-const graphComponent = (mentionProps) => {
+const graphComponent = (flyTo) => (mentionProps) => {
 
   const data = [
     { year: '1991', value: 15468 },
@@ -38,7 +38,7 @@ const graphComponent = (mentionProps) => {
   return (
 
     <span className={'mention'}>
-          <Popover content={content} title={mentionProps.mention.name} overlayStyle={{width: '600px'}}>
+          <Popover content={content} title={<span> {mentionProps.mention.name} <a onMouseLeave={flyTo} onMouseEnter={flyTo}> View</a></span>} overlayStyle={{width: '600px'}}>
             {mentionProps.mention.name}
 
             <Icon type={'area-chart'}/>

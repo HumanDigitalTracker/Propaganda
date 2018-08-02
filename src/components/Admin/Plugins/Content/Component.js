@@ -27,6 +27,8 @@ const contentComponent = (saveContent) => (mentionProps) => {
         file={{url : require('../../../../assets/test.pdf')}}
       >
         <Page width={300} pageNumber={1} />
+
+
       </Document>
 
     </div>

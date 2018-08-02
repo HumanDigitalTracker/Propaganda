@@ -1,6 +1,6 @@
 import {Icon} from 'antd';
 
-const regionComponent = (flyTo, addBorder) => (mentionProps) => {
+const regionComponent = (addBorder) => (mentionProps) => {
 
   return (
     <span

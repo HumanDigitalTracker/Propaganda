@@ -80,8 +80,14 @@ git clone https://github.com/HumanDigitalTracker/Propaganda.git
 psql -U postgres -d tracker -a -f api/sql/tracker_public_country.sql -h localhost
 psql -U postgres -d tracker -a -f api/sql/tracker_public_user.sql -h localhost
 psql -U postgres -d tracker -a -f api/sql/tracker_public_userXCountry.sql -h localhost
+psql -U postgres -d tracker -a -f api/sql/tracker_public_content.sql -h localhost
 
 
+### edit database
+
+psql -U postgres -d tracker -h localhost
+
+SELECT * from cards 
 ````start.sh````
 
 ### tmux help

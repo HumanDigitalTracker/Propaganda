@@ -135,21 +135,21 @@ export default class CustomMentionEditor extends Component {
     this.regionPlugin = createMentionPlugin(
       {
         mentionTrigger: '@R',
-        mentionComponent: regionComponent(this.props.flyTo, this.props.addBorder),
+        mentionComponent: regionComponent(this.props.addBorder),
       }
     );
 
     this.graphPlugin = createMentionPlugin(
       {
         mentionTrigger: '@G',
-        mentionComponent: graphComponent,
+        mentionComponent: graphComponent(this.props.flyTo),
       }
     );
 
     this.contentPlugin = createMentionPlugin(
       {
         mentionTrigger: '^',
-        mentionComponent: contentComponent((e) => {this.props.addCard(e)}),
+        mentionComponent: contentComponent(this.props.addCard),
       }
     );
 
