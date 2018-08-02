@@ -1,0 +1,1 @@
+INSERT INTO public."user" (id, "userName") VALUES (1, 'graham@asthecrowflies.co.uk');

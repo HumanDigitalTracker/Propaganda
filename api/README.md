@@ -1,39 +1,69 @@
+#### install git!
+
+sudo apt-get install git tmux
+
+#### get repo
+
+````
+git clone https://github.com/HumanDigitalTracker/Propaganda.git
+````
+
+####Get Python
         ```
-        $ pip install virtualenv
+        $ sudo apt-get install python-virtualenv
+        $ sudo apt-get install python3-pip
+        $ apt-get install python3-setuptools
+        $ easy_install3 pip
+        
         $ virtualenv -p python3 env
-        $ pip install autoenv
+        
+        $ source env/bin/activate
+        $ pip install -r requirements.txt
         ```
 
 * #### Environment Variables (start.sh does this for you)
     ```
-    source env/bin/activate
     export APP_SETTINGS="development"
     export DATABASE_URL="postgresql://postgres:postgres@localhost/tracker"
     ```
     
   ### To create the database
   
-  psql -U postgres -h localhost
+  sudo apt-get install postgresql postgresql-contrib
+  
+  
+  sudo -u postgres psql
+  From the resulting prompt:
+  
+  ALTER USER postgres PASSWORD 'postgres';
+  CREATE DATABASE tracker;
+   
+  (control d to exit)
   
   ````
-  > create database tracker
+  > create database tracker;
   ````
   
- ### start the database server
- 
- ````sudo service postgresql start````
+    
+  ### Install Node
   
- #### Install your requirements
- 
-     Remember to run source env/bin/activate before doing this
- 
-    ```
-    (env)$ pip install -r requirements.txt
-    ```
+  curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  sudo apt-get install -y nodejs
+  
+  
+  ### Install js requirements
+  cd 
+  npm install
+  
 
- #### Apply your Migrations
+ #### Build database
  
-     Remember to run source env/bin/activate before doing this
+     (Remember to run)
+     
+       source env/bin/activate
+       export APP_SETTINGS="development"
+       export DATABASE_URL="postgresql://postgres:postgres@localhost/tracker"
+         
  
     ```
     (env)$ python manage.py db init
@@ -46,8 +76,26 @@
     (env)$ python manage.py db upgrade
     ```
 
+
+### Populate DB
+
+psql -U postgres -d thing -a -f api/sql/tracker_public_country.sql -h localhost
+psql -U postgres -d thing -a -f api/sql/tracker_public_user.sql -h localhost
+psql -U postgres -d thing -a -f api/sql/tracker_public_userXCountry.sql -h localhost
+
+
+````chmod 777 start.sh````
+
 ````start.sh````
 
+### tmux help
+
+To use tmux, start it using start.sh
+
+ - control b and then arrow keys to swap panes
+ - control b and press d to get out of tmux panes (it is all still running)
+ - tmux kill-server will stop all processes in all panes
+ 
 
 
 
