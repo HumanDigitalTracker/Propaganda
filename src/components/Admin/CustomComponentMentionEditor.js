@@ -16,7 +16,6 @@ import editorStyles from './editorStyles.less';
 import buttonStyles from './buttonStyles.less';
 import toolbarStyles from './toolbarStyles.less';
 
-
 import createMentionPlugin from 'draft-js-mention-plugin';
 
 import Search from "./Plugins/Search";
@@ -35,6 +34,12 @@ import ContentEntry from './Plugins/Content/Entry';
 
 import definitionComponent from './Plugins/Definition/Component';
 import DefinitionEntry from './Plugins/Definition/Entry';
+
+import actorComponent from './Plugins/Actor/Component';
+import ActorEntry from './Plugins/Actor/Entry';
+
+import battleComponent from './Plugins/Battle/Component';
+import BattleEntry from './Plugins/Battle/Entry';
 
 import HeadlinesButton from './HeadlinesButton';
 
@@ -107,6 +112,128 @@ export default class CustomMentionEditor extends Component {
     });
   }));
 
+  actorSearch = (Search('/api/real/content', (data) => {
+    this.setState({
+      actors: [
+        {
+          name: "Abu Bakr Al-Baghdadi",
+          data : {
+            image: 'https://www.aljazeera.com/mritems/imagecache/mbdxxlarge/mritems/Images/2018/2/12/c6242b2d89194957910c6599f10025a5_18.jpg',
+            items: [
+              {title: 'Birth Name', value: "Ibrahim Awad Ibrahim al-Badri"},
+              {title: 'Place of Birth', value: "Saladin Governorate, Iraq"},
+              {title: 'Date of Birth', value: "1971, Samarra, Iraq"},
+              {title: 'Date of Death', value: "-"},
+              {title: 'Rank', value: "Leader of the Islamic State of Iraq and the Levant"},
+              {title: "Commands Held", value: "Leader of Islamic State of Iraq"},
+              {title: 'Affiliations', value: "Daesh, Former: Muslim Brotherhood, Islamic State in Iraq (Al-Qaeda affiliated)"},
+            ],
+
+            paragraph1: 'Abu Bakr al-Baghdadi—born “Ibrahim Awwad Ibrahim al-Badri” in 1971 in Samarra, Iraq—has served as ISIS’s caliph, Arabic for “successor,” since June 2014. In assuming the title, Baghdadi declared himself the religious, political, and military leader of all Muslims. Baghdadi has been in hiding since the collapse of ISIS’s caliphate in Syria and Iraq.',
+            paragraph2: 'Baghdadi is careful to reveal little about his identity or background. There were reportedly only two publicly available photographs of Baghdadi prior to ISIS’s rise to the international stage in 2014. Known as the “invisible sheikh,” Baghdadi wears a mask when addressing other ISIS commanders. However, an un-masked Baghdadi addressed members of ISIS in July 2014 from the pulpit of Mosul’s Great Mosque.',
+            paragraph3 : '',
+          },
+        },
+
+
+        {
+          name: "Abu Omar al-Shishani",
+          data : {
+            image: 'https://upload.wikimedia.org/wikipedia/en/1/19/Tarkhan_Tayumurazovich_Batirashvili.jpg',
+            items: [
+              {title: 'Birth Name', value: "Tarkhan Tayumurazovich Batirashvili"},
+              {title: 'Place of Birth', value: "Birkiani, Georgian"},
+              {title: 'Date of Birth', value: "11 February 1986"},
+              {title: 'Date of Death', value: "10 July 2016 (age 30)"},
+              {title: 'Rank', value: ": Field Commander"},
+              {title: "Commands Held", value: "Northern Syria"},
+              {title: 'Affiliations', value: "Georgian Armed Forces (2006 -2010), Jaish al-Muhajireen wal-Ansar (2012-2013), Daesh (2013 - 2016)"},
+            ],
+
+            paragraph1: 'Tarkhan Batirashvili known as Abu Omar al-Shishani, or Omar al-Shishani, was a Georgian Chechen (Kist) jihadist who served as a commander for the Islamic State in Syria, and previously as a sergeant in the Georgian Army.',
+            paragraph2: 'A veteran of the 2008 Russo-Georgian War, Batirashvili became jihadist after being discharged from the Georgian military and served in various command positions with Islamist militant groups fighting in the Syrian Civil War. Batirashvili was previously the leader of the rebel group Muhajireen Brigade (Emigrants Brigade), and its successor, Jaish al-Muhajireen wal-Ansar (Army of Emigrants and Supporters). In 2013, Batirashvili joined the Islamic State and rapidly became a senior commander in the organization, directing a series of battles and ultimately earning a seat on ISIL\'s shura council',
+            paragraph3 : 'The US Treasury Department added Batirashvili to its list of Specially Designated Global Terrorists on 24 September 2014, and seven months later the US government announced a reward up to US$5 million for information leading to his capture. There were several reports of his death throughout 2015 and 2016. ISIL confirmed he was killed in July 2016 as a result of a US airstrike.'
+          },
+        },
+
+
+
+
+      ],
+    });
+  }));
+
+  battleSearch = (Search('/api/real/content', (data) => {
+    this.setState({
+      battles: [{'name' : 'July',
+
+        geojson : {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [38.9981, 35.9594],
+            },
+            properties: {
+              location : 'Raqqa, Raqqa',
+              description : 'Intermittent attacks in Raqqa and surrounding villages.',
+            }
+          },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [38.9512, 36.6919],
+              },
+              properties: {
+                location : 'Hamam al-Turhman, Raqqa',
+                description : 'Intermittent attacks. Casualties: Daesh execution of 19 captives.',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [40.4465, 35.0161],
+              },
+              properties: {
+                location : 'Al Mayadin, Deir Ezzor',
+                description : 'Prolonged firefight. Casualties: Daesh - 40 dead Russian Army - 4 dead, 5 injured',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [40.9082, 34.4653],
+              },
+              properties: {
+                location : 'Al-Bukamal',
+                description : 'Clashes with Iranian militias, Casualties, Unconfirmed',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [36.5663, 32.7129],
+              },
+              properties: {
+                location : 'As-Suwayda, As-Suwayda',
+                description : 'Daesh suicide bombings and gun attacks, Casualties 255 reported deaths',
+              }
+            }
+
+            ]
+        }}],
+    });
+  }));
+
   constructor(props) {
     super(props);
 
@@ -160,6 +287,21 @@ export default class CustomMentionEditor extends Component {
       }
     );
 
+    this.actorPlugin = createMentionPlugin(
+      {
+        mentionTrigger: '@A',
+        mentionComponent: actorComponent,
+      }
+    );
+
+    this.battlePlugin = createMentionPlugin(
+      {
+        mentionTrigger: '@B',
+        mentionComponent: battleComponent(this.props.flyTo, this.props.addBorder),
+      }
+    );
+
+
   }
 
   state = {
@@ -168,6 +310,8 @@ export default class CustomMentionEditor extends Component {
     contents: [],
     definitions: [],
     regions : [],
+    actors : [],
+    battles: [],
   };
 
   focus = () => {
@@ -177,13 +321,15 @@ export default class CustomMentionEditor extends Component {
   render() {
 
     const {editorState, onChange, onHeadlineChange, readOnly} = this.props;
-    const { definitions, graphs, contents, heatmaps, regions } = this.state;
+    const { definitions, graphs, contents, heatmaps, regions, actors, battles } = this.state;
 
-    const GraphSuggestions = this.graphPlugin.MentionSuggestions;
-    const ContentSuggestions = this.contentPlugin.MentionSuggestions;
+    const GraphSuggestions      = this.graphPlugin.MentionSuggestions;
+    const ContentSuggestions    = this.contentPlugin.MentionSuggestions;
     const DefinitionSuggestions = this.definitionPlugin.MentionSuggestions;
-    const HeatmapSuggestions = this.heatmapPlugin.MentionSuggestions;
-    const RegionSuggestions = this.regionPlugin.MentionSuggestions;
+    const HeatmapSuggestions    = this.heatmapPlugin.MentionSuggestions;
+    const RegionSuggestions     = this.regionPlugin.MentionSuggestions;
+    const ActorSuggestions      = this.actorPlugin.MentionSuggestions;
+    const BattleSuggestions     = this.battlePlugin.MentionSuggestions;
 
     const {Toolbar} = this.toolbarPlugin;
 
@@ -199,7 +345,7 @@ export default class CustomMentionEditor extends Component {
             readOnly={readOnly}
             editorState={editorState}
             onChange={onChange}
-            plugins={[this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
+            plugins={[this.battlePlugin, this.actorPlugin, this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
             ref={(element) => {
               this.editor = element;
             }}
@@ -244,6 +390,22 @@ export default class CustomMentionEditor extends Component {
             onSearchChange={this.regionSearch}
             suggestions={regions}
             onClose={() => this.setState({regions: []})}
+          />
+
+          <ActorSuggestions
+            key={7}
+            entryComponent={ActorEntry}
+            onSearchChange={this.actorSearch}
+            suggestions={actors}
+            onClose={() => this.setState({actors: []})}
+          />
+
+          <BattleSuggestions
+            key={8}
+            entryComponent={BattleEntry}
+            onSearchChange={this.battleSearch}
+            suggestions={battles}
+            onClose={() => this.setState({battles: []})}
           />
 
         </div>

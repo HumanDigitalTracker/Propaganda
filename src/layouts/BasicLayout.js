@@ -20,8 +20,6 @@ import logo from '../assets/logo.svg';
 import {Motion, spring} from 'react-motion';
 
 import styles from './BasicLayout.less';
-import CardJSONEditor from "../components/CardJSONEditor/CardJSONEditor";
-import CardLoader from "../components/CardLoader/CardLoader";
 
 const {Content, Header, Footer} = Layout;
 const {AuthorizedRoute, check} = Authorized;

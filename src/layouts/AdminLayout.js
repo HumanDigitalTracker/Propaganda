@@ -1,9 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import * as MapboxGl from 'mapbox-gl';
+import * as geojsonextent from '@mapbox/geojson-extent';
 
 import {connect} from 'dva';
 
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js'
+
 
 import ReactMapboxGl, { Layer, Feature, Marker } from "react-mapbox-gl";
 
@@ -59,8 +61,25 @@ export default class Admin extends Component {
    this.setState({group : value});
   }
 
-  flyTo(whereTo) {
-    if (this.map) this.map.flyTo(whereTo);
+  flyTo(mention) {
+
+    if (this.map){
+
+      mention.geojson.features.forEach((marker) => {
+
+        // create the popup
+        const popup = new MapboxGl.Popup().setHTML('<h3>' + marker.properties.location + '</h3><p>' + marker.properties.description + '</p>')
+
+        new MapboxGl.Marker()
+          .setLngLat(marker.geometry.coordinates)
+          .setPopup(popup)
+          .addTo(this.map);
+      });
+
+      this.map.fitBounds(geojsonextent(mention.geojson), {
+        padding: 120,
+      });
+    }
   }
 
   addBorder(geojson, clear) {
@@ -70,7 +89,6 @@ export default class Admin extends Component {
     if (map) {
 
       try {
-        console.log(geojson);
         if (map.getLayer('border')) map.removeLayer('border');
         if (map.getSource('border-source')) map.removeSource('border-source');
 
