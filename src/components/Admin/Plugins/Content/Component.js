@@ -96,11 +96,27 @@ const contentComponent = (saveContent) => (mentionProps) => {
     <div>
       <Facebook></Facebook>
       Shares : 123
-      <Button> Save content </Button>
     </div>
   );
 
-  const typemap = {'youtube' : youtube_content, 'pdf' : pdf_content, 'pdf_multiple' : pdf_multiple_content, 'facebook' : facebook_content};
+  const raw_content = (
+    <div>
+
+      <video controls
+             muted
+             src={mentionProps.mention.url}
+             width="300"
+             height="200">
+        Sorry, your browser doesn't support embedded videos.
+      </video>
+
+    </div>
+  );
+
+
+
+
+  const typemap = {'youtube' : youtube_content, 'pdf' : pdf_content, 'pdf_multiple' : pdf_multiple_content, 'facebook' : facebook_content, 'raw' : raw_content};
 
   return (
     <span className={'mention'}
