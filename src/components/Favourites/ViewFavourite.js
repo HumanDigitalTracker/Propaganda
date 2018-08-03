@@ -58,7 +58,7 @@ export default class ViewFavourites extends PureComponent {
 
 
     const steps = [{
-      title: <span> Preview content  {current} </span>,
+      title: <span> Preview content   </span>,
       content: <Row>
         <Col span={10} key={1}>
 

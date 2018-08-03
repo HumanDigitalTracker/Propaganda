@@ -9,7 +9,7 @@ class Card(db.Model):
     __tablename__ = 'cards'
 
     id = db.Column(db.Integer, primary_key=True)
-
+    orderby = db.Column(db.Integer)
     component = db.Column(db.String(255))
 
     key = db.Column(JSONB(astext_type=Text()))

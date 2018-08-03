@@ -131,7 +131,7 @@ def create_app(config_name):
       for row in result:
           cardids.append(row[0])
 
-      cards = Card.get_all().filter(Card.id.in_(cardids)).all()
+      cards = Card.get_all().filter(Card.id.in_(cardids)).order_by(Card.orderby.desc()).all()
       #cards = Card.get_all().all()
 
       results = []

@@ -44,6 +44,9 @@ import ActorEntry from './Plugins/Actor/Entry';
 import battleComponent from './Plugins/Battle/Component';
 import BattleEntry from './Plugins/Battle/Entry';
 
+import mapComponent from './Plugins/Map/Component';
+import MapEntry from './Plugins/Map/Entry';
+
 import HeadlinesButton from './HeadlinesButton';
 
 export default class CustomMentionEditor extends Component {
@@ -156,7 +159,7 @@ export default class CustomMentionEditor extends Component {
               {title: 'Place of Birth', value: "Birkiani, Georgian"},
               {title: 'Date of Birth', value: "11 February 1986"},
               {title: 'Date of Death', value: "10 July 2016 (age 30)"},
-              {title: 'Rank', value: ": Field Commander"},
+              {title: 'Rank', value: "Field Commander"},
               {title: "Commands Held", value: "Northern Syria"},
               {title: 'Affiliations', value: "Georgian Armed Forces (2006 -2010), Jaish al-Muhajireen wal-Ansar (2012-2013), Daesh (2013 - 2016)"},
             ],
@@ -245,6 +248,77 @@ export default class CustomMentionEditor extends Component {
     });
   }));
 
+  mapSearch = (Search('/api/real/content', (data) => {
+    this.setState({
+      maps: [{'name' : 'July',
+
+        geojson : {
+          type: 'FeatureCollection',
+          features: [{
+            type: 'Feature',
+            geometry: {
+              type: 'Point',
+              coordinates: [38.9981, 35.9594],
+            },
+            properties: {
+              location : 'Raqqa, Raqqa',
+              description : 'Intermittent attacks in Raqqa and surrounding villages.',
+            }
+          },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [38.9512, 36.6919],
+              },
+              properties: {
+                location : 'Hamam al-Turhman, Raqqa',
+                description : 'Intermittent attacks. Casualties: Daesh execution of 19 captives.',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [40.4465, 35.0161],
+              },
+              properties: {
+                location : 'Al Mayadin, Deir Ezzor',
+                description : 'Prolonged firefight. Casualties: Daesh - 40 dead Russian Army - 4 dead, 5 injured',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [40.9082, 34.4653],
+              },
+              properties: {
+                location : 'Al-Bukamal',
+                description : 'Clashes with Iranian militias, Casualties, Unconfirmed',
+              }
+            },
+
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [36.5663, 32.7129],
+              },
+              properties: {
+                location : 'As-Suwayda, As-Suwayda',
+                description : 'Daesh suicide bombings and gun attacks, Casualties 255 reported deaths',
+              }
+            }
+
+          ]
+        }}],
+    });
+  }));
+
   constructor(props) {
     super(props);
 
@@ -319,6 +393,13 @@ export default class CustomMentionEditor extends Component {
       }
     );
 
+    this.mapPlugin = createMentionPlugin(
+      {
+        mentionTrigger: '@M',
+        mentionComponent: mapComponent,
+      }
+    );
+
 
   }
 
@@ -331,6 +412,7 @@ export default class CustomMentionEditor extends Component {
     actors : [],
     battles: [],
     previousreports: [],
+    maps : [],
   };
 
   focus = () => {
@@ -340,7 +422,7 @@ export default class CustomMentionEditor extends Component {
   render() {
 
     const {editorState, onChange, onHeadlineChange, readOnly} = this.props;
-    const { definitions, graphs, contents, heatmaps, regions, actors, battles, previousreports } = this.state;
+    const { definitions, graphs, contents, heatmaps, regions, actors, battles, maps, previousreports } = this.state;
 
     const GraphSuggestions          = this.graphPlugin.MentionSuggestions;
     const ContentSuggestions        = this.contentPlugin.MentionSuggestions;
@@ -350,6 +432,7 @@ export default class CustomMentionEditor extends Component {
     const ActorSuggestions          = this.actorPlugin.MentionSuggestions;
     const BattleSuggestions         = this.battlePlugin.MentionSuggestions;
     const PreviousReportSuggestions = this.previousreportPlugin.MentionSuggestions;
+    const MapSuggestions            = this.mapPlugin.MentionSuggestions;
 
     const {Toolbar} = this.toolbarPlugin;
 
@@ -365,7 +448,7 @@ export default class CustomMentionEditor extends Component {
             readOnly={readOnly}
             editorState={editorState}
             onChange={onChange}
-            plugins={[this.previousreportPlugin, this.battlePlugin, this.actorPlugin, this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
+            plugins={[this.previousreportPlugin, this.mapPlugin, this.battlePlugin, this.actorPlugin, this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
             ref={(element) => {
               this.editor = element;
             }}
@@ -434,6 +517,14 @@ export default class CustomMentionEditor extends Component {
             onSearchChange={this.previousreportSearch}
             suggestions={previousreports}
             onClose={() => this.setState({previousreports: []})}
+          />
+
+          <MapSuggestions
+            key={10}
+            entryComponent={MapEntry}
+            onSearchChange={this.mapSearch}
+            suggestions={maps}
+            onClose={() => this.setState({maps: []})}
           />
 
         </div>

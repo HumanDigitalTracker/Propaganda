@@ -23,7 +23,7 @@ class Shrinker extends Component {
 
 
   toggle(e, data) {
-    if (e.target.getAttribute("class") !== 'doNotToggle') this.setState({isShrunk: !this.state.isShrunk});
+   this.setState({isShrunk: false});
   }
 
   hover() {
@@ -37,29 +37,13 @@ class Shrinker extends Component {
     const {children} = this.props;
 
     return (
-      <div id="tyresrtrt" onMouseLeave={this.hover.bind(this)} onMouseEnter={this.hover.bind(this)} onClick={this.toggle.bind(this)}>
-        <Motion style={{height: spring((isShrunk ? 150 : 500))}}>
+      <div id="tyresrtrt" onClick={this.toggle.bind(this)}>
+        <Motion style={{height: spring((isShrunk ? 105 : 700))}}>
           {
             ({height}) => (
               <div style={{'overflow': 'hidden', 'height': height + 'px'}}>
 
-                {isShrunk && <div style={{'position': 'absolute'}}>
-
-                  <Row>
-                    <Col span={24}>
-                      <Icon type={'plus'} style={{fontSize: '78px'}}/>
-                      <span style={{fontSize: '24px'}}>3 minute read - 5 pieces of content</span>
-                    </Col>
-
-
-                  </Row>
-
-                </div>}
-
-
-
-
-                <div style={isShrunk ? {opacity: 0.3} : {opacity: 1.0}}>
+                <div >
                   {children}
                 </div>
 
@@ -97,14 +81,27 @@ class HeadlineCard extends Component {
 
     const { editorState, headline } = this.state;
 
-    return (
-      <ChartCard bordered={false} key={1} title={<h2>{headline} {extra}</h2>}>
+    return (<Shrinker>
+      <ChartCard bordered={false} key={1} title={<h2 style={{height : '36px'}}>{headline} {extra}</h2>}>
 
-       <Shrinker>
+        <Tag style={{color: '#4386BF'}}>Martyrdom</Tag>
+
+        <Tag style={{color: '#4386BF'}}>Asymmetrical War</Tag>
+
+        <Tag style={{color: '#4386BF'}}>Iraq</Tag>
+
+        <Tag style={{color: '#4386BF'}}>Syria</Tag>
+
+        <div>
+          <Tag style={{color: '#AFB7C2', border: 'none', background: 'none'} }>38 Items</Tag>
+          <Tag style={{color: '#AFB7C2', border: 'none', background: 'none'} }>03/08/2018</Tag>
+        </div>
+
+
           <CustomMentionEditor readOnly addCard={pageActions.addCard.bind(this)} flyTo={pageActions.flyTo.bind(this)} addBorder={pageActions.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />
-       </Shrinker>
 
-      </ChartCard>
+
+      </ChartCard>  </Shrinker>
     );
 
   }

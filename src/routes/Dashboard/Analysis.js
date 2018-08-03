@@ -251,7 +251,7 @@ export default class Analysis extends Component {
                       <div style={{'background': 'white', 'marginTop': '76px', 'marginLeft': '96px', width: '946px'}}
                            id="rowChild14954" className="flexChild rounded">
                         {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`}
-                                                                                      extra={<Favourite onClick={this.addFavourite.bind(this)} card={thecard}/>}
+                                                                                      extra={null/*<Favourite onClick={this.addFavourite.bind(this)} card={thecard}/>*/}
                                                                                       pageActions={{
                                                                                         'addCard': this.addCard.bind(this),
                                                                                         'flyTo': this.flyTo.bind(this),
@@ -276,7 +276,7 @@ export default class Analysis extends Component {
                         <div id="columnChild2978" className="flexChild rounded" style={{marginTop : '126px'}}>
 
 
-                          <Tabs defaultActiveKey={1} activeKey={this.state.tab} onTabClick={(tab) => {console.log(tab); this.setState({'tab' : tab}) }}>
+                          {/*<Tabs defaultActiveKey={1} activeKey={this.state.tab} onTabClick={(tab) => {console.log(tab); this.setState({'tab' : tab}) }}>
                             <TabPane tab={ <Icon type="line-chart" /> } key="1" >
                               Marcias graph!
                             </TabPane>
@@ -289,32 +289,32 @@ export default class Analysis extends Component {
                                 <Geom type="interval" position="country*casualties" />
                               </Chart>
                             </TabPane>
-                          </Tabs>
+                          </Tabs>*/}
 
                         </div>
                       </div>
 
                       <div style={{'paddingTop': '0px'}} id="columnChild87347" className="flexChild">
 
-                        <Map
-                          style="mapbox://styles/mapbox/light-v9"
-                          containerStyle={{
-                            marginLeft: '-17px',
-                            marginTop: '21px',
-                            height: "600px",
-                            width: "838px",
-                            position: 'absolute',
-                          }}
+                        {/*<Map*/}
+                          {/*style="mapbox://styles/mapbox/light-v9"*/}
+                          {/*containerStyle={{*/}
+                            {/*marginLeft: '-17px',*/}
+                            {/*marginTop: '21px',*/}
+                            {/*height: "600px",*/}
+                            {/*width: "838px",*/}
+                            {/*position: 'absolute',*/}
+                          {/*}}*/}
 
-                          onStyleLoad={(map) => {
+                          {/*onStyleLoad={(map) => {*/}
 
-                            that.map = map;
-                            that.map.setCenter([44.361488, 33.312805]);
-                            that.map.setZoom([4]);
-                          }}
-                        >
+                            {/*that.map = map;*/}
+                            {/*that.map.setCenter([44.361488, 33.312805]);*/}
+                            {/*that.map.setZoom([4]);*/}
+                          {/*}}*/}
+                        {/*>*/}
 
-                        </Map>
+                        {/*</Map>*/}
 
                       </div>
                     </div>)

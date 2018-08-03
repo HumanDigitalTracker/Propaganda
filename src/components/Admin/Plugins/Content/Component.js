@@ -104,6 +104,7 @@ const contentComponent = (saveContent) => (mentionProps) => {
 
       <video controls
              muted
+             autoplay="autoplay"
              src={mentionProps.mention.url}
              width="300"
              height="200">
@@ -122,7 +123,7 @@ const contentComponent = (saveContent) => (mentionProps) => {
     <span className={'mention'}
     >
 
-          <Popover content={typemap[mentionProps.mention.type] || <span>unknown</span>} title={<span> {mentionProps.mention.title} <a className="doNotToggle" style={{float : 'right'}} onClick={(e) => {saveContent(mentionProps.mention)}}> Save content </a> </span>}>
+          <Popover arrowPointAtCenter={true} placement={'right'} getPopupContainer={()=> document.getElementById('rowChild14954') || document.body} content={typemap[mentionProps.mention.type] || <span>unknown</span>} title={<span> {mentionProps.mention.title} <a className="doNotToggle" style={{float : 'right'}} onClick={(e) => {saveContent(mentionProps.mention)}}> Save content </a> </span>}>
 
             {mentionProps.mention.type === 'youtube' && <Icon type={'youtube'}/> }
 
@@ -131,6 +132,8 @@ const contentComponent = (saveContent) => (mentionProps) => {
             {mentionProps.mention.type === 'pdf_multiple' && <Icon type={'copy'}/> }
 
             {mentionProps.mention.type === 'facebook' && <Icon type={'facebook'}/> }
+
+            {mentionProps.mention.type === 'raw' && <Icon type={'youtube'}/> }
 
             {mentionProps.mention.title}
           </Popover>

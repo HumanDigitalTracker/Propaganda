@@ -22,8 +22,6 @@ export default class Favourite extends PureComponent {
     return (
       <span>
 
-        <Icon type="contacts"/>
-
         <span style={{position: 'absolute', 'color': 'green', 'margin-top': `0%`}}>
           <Icon onClick={this.addFavourite.bind(this)} type="star"/>
         </span>

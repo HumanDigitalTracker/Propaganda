@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Row, Col, Form} from 'antd';
+import {Modal, Row, Col, Form, Icon } from 'antd';
 import CustomMentionEditor from "../../../Admin/CustomComponentMentionEditor";
 import {EditorState, convertFromRaw, convertToRaw} from 'draft-js'
 
@@ -24,7 +24,7 @@ export default class previousreportComponent extends Component {
     return (
       <span>
 
-        <Modal width={700} title={mention.data.headline} visible={modal} onCancel={(e) => this.setState({modal: false})}
+        <Modal style={{ top: '152px', left: '-290px' }} width={700} title={mention.data.headline} visible={modal} onCancel={(e) => this.setState({modal: false})}
                footer={null}>
             {/*hack to make it look like we can show previous reports - I have just pasted the json into a 'data' property mention in CustomComponentMMentionEditor!*/}
           <CustomMentionEditor readOnly onChange={this.onChange.bind(this)} editorState={this.state.editorstate}/>
@@ -32,7 +32,7 @@ export default class previousreportComponent extends Component {
         </Modal>
 
         <span className={'mention'} onClick={this.showModal.bind(this)}>
-              {mention.name}
+              <Icon type="form" /> {mention.name}
         </span>
       </span>
     )

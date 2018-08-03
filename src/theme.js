@@ -4,5 +4,8 @@ module.exports = {
   'link-color': '#1DA57A',
   'layout-body-background' : '#E7E9EB',
   'text-color' : '#074266',
+  'font-family' : 'Noto Sans',
+  'font-size-base': '18px',
+
 
 };

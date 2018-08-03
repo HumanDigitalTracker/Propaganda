@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Modal, Row, Col, Form} from 'antd';
+import {Modal, Row, Col, List, Icon } from 'antd';
 
 const formItemLayout = {
   labelCol: {span: 12},
@@ -21,37 +21,32 @@ export default class actorComponent extends Component {
     return (
       <span>
 
-        <Modal width={700} title={'Abu Bakr Al-Baghdadi'} visible={modal}
+        <Modal getContainer={() => document.getElementById('rowChild14954') || document.body}
+               style={{top: '152px', left: '-290px'}} width={800} title={mention.name} visible={modal}
                onCancel={(e) => this.setState({modal: false})} footer={null}>
 
           <Row>
 
-            <Col span={10}>
+            <Col span={11}>
               <img alt='' style={{'objectFit': 'cover', 'width': '300px', 'height': '300px'}} src={mention.data.image}/>
             </Col>
 
-            <Col span={14}>
-            <Form>
+            <Col span={13} >
 
-              {mention.data.items.map((e, i) =>
+               <List>
 
-                <Form.Item
-                  {...formItemLayout}
-                  label={e.title}
-                  key={i}
-                  style={{marginBottom: '0px'}}
-                >
-                  <span className="ant-form-text">{e.value}</span>
-                </Form.Item>
-              )
-              }
+                 {mention.data.items.map((e, i) =>
+                   <List.Item>
 
-            </Form>
+                     <List.Item.Meta title={ <strong> {e.title} </strong> } />
+                     <span>{e.value}</span>
+                   </List.Item>
+                 )}
+
+               </List>
+
             </Col>
           </Row>
-
-
-          {/*<Table pagination={false} dataSource={dataSource} columns={columns} />*/}
 
           <p>
               {mention.data.paragraph1}
@@ -64,7 +59,7 @@ export default class actorComponent extends Component {
         </Modal>
 
         <span className={'mention'} onClick={this.showModal.bind(this)}>
-              {mention.name}
+              <Icon type={'user'}/>  {mention.name}
         </span>
       </span>
     )
