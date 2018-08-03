@@ -38,7 +38,7 @@ class Shrinker extends Component {
 
     return (
       <div id="tyresrtrt" onMouseLeave={this.hover.bind(this)} onMouseEnter={this.hover.bind(this)} onClick={this.toggle.bind(this)}>
-        <Motion style={{height: spring((isShrunk ? 150 : 300))}}>
+        <Motion style={{height: spring((isShrunk ? 150 : 500))}}>
           {
             ({height}) => (
               <div style={{'overflow': 'hidden', 'height': height + 'px'}}>
