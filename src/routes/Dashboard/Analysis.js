@@ -8,7 +8,8 @@ import {
   Tabs,
   DatePicker,
   Divider,
-  Icon
+  Icon,
+  Button,
 } from 'antd';
 
 import {Motion, spring} from 'react-motion';
@@ -26,6 +27,7 @@ import * as MapboxGl from 'mapbox-gl';
 import * as geojsonextent from '@mapbox/geojson-extent';
 
 import CardLoader from "components/CardLoader/CardLoader";
+import Favourite from "../../components/Favourites/Favourite";
 
 const {TabPane} = Tabs;
 const {RangePicker} = DatePicker;
@@ -151,6 +153,7 @@ export default class Analysis extends Component {
     const { card } = this.props;
     const that = this;
 
+
     const topColResponsiveProps = {
       xs: 24,
       sm: 12,
@@ -221,6 +224,7 @@ export default class Analysis extends Component {
                       <div style={{'background': 'white', 'marginTop': '76px', 'marginLeft': '96px', width: '946px'}}
                            id="rowChild14954" className="flexChild rounded">
                         {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`}
+                                                                                      extra={<Favourite/>}
                                                                                       pageActions={{
                                                                                         'addCard': this.addCard.bind(this),
                                                                                         'flyTo': this.flyTo.bind(this),

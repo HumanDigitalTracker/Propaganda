@@ -98,9 +98,7 @@ class HeadlineCard extends Component {
     const { editorState, headline } = this.state;
 
     return (
-      <ChartCard bordered={false} key={1}>
-
-        <h1> {headline} </h1>
+      <ChartCard bordered={false} key={1} title={<h2>{headline} {extra}</h2>}>
 
        <Shrinker>
           <CustomMentionEditor readOnly addCard={pageActions.addCard.bind(this)} flyTo={pageActions.flyTo.bind(this)} addBorder={pageActions.addBorder.bind(this)} onChange={this.onChange.bind(this)} editorState={ editorState } />

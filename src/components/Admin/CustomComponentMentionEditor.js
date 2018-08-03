@@ -20,6 +20,9 @@ import createMentionPlugin from 'draft-js-mention-plugin';
 
 import Search from "./Plugins/Search";
 
+import previousreportComponent from './Plugins/PreviousReport/Component';
+import PreviousReportEntry from './Plugins/PreviousReport/Entry';
+
 import regionComponent from './Plugins/Region/Component';
 import RegionEntry from './Plugins/Region/Entry';
 
@@ -79,6 +82,14 @@ export default class CustomMentionEditor extends Component {
         { name: "Iraq",         geojson: {border : {"type":"Feature","id":"IRQ","properties":{"name":"Iraq"},"geometry":{"type":"Polygon","coordinates":[[[45.420618,35.977546],[46.07634,35.677383],[46.151788,35.093259],[45.64846,34.748138],[45.416691,33.967798],[46.109362,33.017287],[47.334661,32.469155],[47.849204,31.709176],[47.685286,30.984853],[48.004698,30.985137],[48.014568,30.452457],[48.567971,29.926778],[47.974519,29.975819],[47.302622,30.05907],[46.568713,29.099025],[44.709499,29.178891],[41.889981,31.190009],[40.399994,31.889992],[39.195468,32.161009],[38.792341,33.378686],[41.006159,34.419372],[41.383965,35.628317],[41.289707,36.358815],[41.837064,36.605854],[42.349591,37.229873],[42.779126,37.385264],[43.942259,37.256228],[44.293452,37.001514],[44.772699,37.170445],[45.420618,35.977546]]]}}, duration: 2000, center: [-79.94606, 40.44961], zoom: 12}},
         { name: "Syria",        geojson: {border : {"type":"Feature","id":"SYR","properties":{"name":"Syria"},"geometry":{"type":"Polygon","coordinates":[[[38.792341,33.378686],[36.834062,32.312938],[35.719918,32.709192],[35.700798,32.716014],[35.836397,32.868123],[35.821101,33.277426],[36.06646,33.824912],[36.61175,34.201789],[36.448194,34.593935],[35.998403,34.644914],[35.905023,35.410009],[36.149763,35.821535],[36.41755,36.040617],[36.685389,36.259699],[36.739494,36.81752],[37.066761,36.623036],[38.167727,36.90121],[38.699891,36.712927],[39.52258,36.716054],[40.673259,37.091276],[41.212089,37.074352],[42.349591,37.229873],[41.837064,36.605854],[41.289707,36.358815],[41.383965,35.628317],[41.006159,34.419372],[38.792341,33.378686]]]}}, duration: 2000, center: [-79.94606, 40.44961], zoom: 12}},
        ],
+    });
+  }));
+
+  previousreportSearch = (Search('/api/real/content', (data) => {
+    this.setState({
+      previousreports: [
+        { name: "Previous Report",  data : {"headline": "Staying relevant: Maximising the impact of new content", "editorState": {"entityMap": {"1": {"data": {"mention": {"url": "https://www.youtube.com/watch?v=-GmfBeJLgoc", "title": "And They Gave Zakah", "type": "youtube", "id": 19, "created": "Thu, 26 Jul 2018 11:01:43 GMT"}}, "type": "^mention", "mutability": "SEGMENTED"}, "0": {"data": {"mention": {"url": "https://www.youtube.com/watch?v=7yBy_kSBM58", "title": "Victory From God and an Imminent Conquest (1)", "type": "youtube", "id": 11, "created": "Thu, 26 Jul 2018 11:01:30 GMT"}}, "type": "^mention", "mutability": "SEGMENTED"}}, "blocks": [{"text": "  undefined is part of a linked five-part series of videos, three of which feature in the top 25 shared pieces of content over the period. Given shrinking resources and territory, it is highly likely that video content produced by the organisation has to showcase the limited operational capabilities and successes of the organisation in the best possible light. Older content serves to prevent previous victories fading from memory, whilst maintenance of production values and an upbeat tone for more recent content acts as a way of continuing a narrative of success despite an obvious lack of real victories. ", "entityRanges": [{"length": 9, "key": 0, "offset": 2}], "depth": 0, "data": {}, "key": "bs0hs", "inlineStyleRanges": [], "type": "unstyled"}, {"text": "", "entityRanges": [], "depth": 0, "data": {}, "key": "ag9ns", "inlineStyleRanges": [], "type": "unstyled"}, {"text": "A similar intent is also likely behind the reuse of the video undefined which showcases the organisations\u2019previous bureaucratic and administrative abilities as a governing organisation collecting and distributing to those in need as well as providing official advice and guidance. Interestingly, this video also contains extensive English subtitles, which indicates that it is intended for a wider audience than is normal for the organisations\u2019content. , which showcases the organisationsprevious bureaucratic and administrative abilities as a governing organisation collecting and distributing to those in need as well as providing official advice and guidance. Interestingly, this video also contains extensive English subtitles, which indicates that it is intended for a wider audience than is normal for the organisations content", "entityRanges": [{"length": 9, "key": 1, "offset": 62}], "depth": 0, "data": {}, "key": "cbe6s", "inlineStyleRanges": [], "type": "unstyled"}, {"text": "", "entityRanges": [], "depth": 0, "data": {}, "key": "cms02", "inlineStyleRanges": [], "type": "unstyled"}, {"text": "Given the subject, and the \u2018authoritative\u2019 guidance presented within the video, it is likely this is intended to present a narrative that the organisation is relevant as the leader of the Muslim world and a legitimate state body, rather than one on the verge of defeat. ", "entityRanges": [], "depth": 0, "data": {}, "key": "5qdaj", "inlineStyleRanges": [], "type": "unstyled"}]}}       },
+      ],
     });
   }));
 
@@ -266,6 +277,13 @@ export default class CustomMentionEditor extends Component {
       }
     );
 
+    this.previousreportPlugin = createMentionPlugin(
+      {
+        mentionTrigger: '@L',
+        mentionComponent: previousreportComponent,
+      }
+    );
+
     this.graphPlugin = createMentionPlugin(
       {
         mentionTrigger: '@G',
@@ -312,6 +330,7 @@ export default class CustomMentionEditor extends Component {
     regions : [],
     actors : [],
     battles: [],
+    previousreports: [],
   };
 
   focus = () => {
@@ -321,15 +340,16 @@ export default class CustomMentionEditor extends Component {
   render() {
 
     const {editorState, onChange, onHeadlineChange, readOnly} = this.props;
-    const { definitions, graphs, contents, heatmaps, regions, actors, battles } = this.state;
+    const { definitions, graphs, contents, heatmaps, regions, actors, battles, previousreports } = this.state;
 
-    const GraphSuggestions      = this.graphPlugin.MentionSuggestions;
-    const ContentSuggestions    = this.contentPlugin.MentionSuggestions;
-    const DefinitionSuggestions = this.definitionPlugin.MentionSuggestions;
-    const HeatmapSuggestions    = this.heatmapPlugin.MentionSuggestions;
-    const RegionSuggestions     = this.regionPlugin.MentionSuggestions;
-    const ActorSuggestions      = this.actorPlugin.MentionSuggestions;
-    const BattleSuggestions     = this.battlePlugin.MentionSuggestions;
+    const GraphSuggestions          = this.graphPlugin.MentionSuggestions;
+    const ContentSuggestions        = this.contentPlugin.MentionSuggestions;
+    const DefinitionSuggestions     = this.definitionPlugin.MentionSuggestions;
+    const HeatmapSuggestions        = this.heatmapPlugin.MentionSuggestions;
+    const RegionSuggestions         = this.regionPlugin.MentionSuggestions;
+    const ActorSuggestions          = this.actorPlugin.MentionSuggestions;
+    const BattleSuggestions         = this.battlePlugin.MentionSuggestions;
+    const PreviousReportSuggestions = this.previousreportPlugin.MentionSuggestions;
 
     const {Toolbar} = this.toolbarPlugin;
 
@@ -345,7 +365,7 @@ export default class CustomMentionEditor extends Component {
             readOnly={readOnly}
             editorState={editorState}
             onChange={onChange}
-            plugins={[this.battlePlugin, this.actorPlugin, this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
+            plugins={[this.previousreportPlugin, this.battlePlugin, this.actorPlugin, this.regionPlugin, this.toolbarPlugin, this.graphPlugin, this.definitionPlugin, this.contentPlugin, this.heatmapPlugin]}
             ref={(element) => {
               this.editor = element;
             }}
@@ -406,6 +426,14 @@ export default class CustomMentionEditor extends Component {
             onSearchChange={this.battleSearch}
             suggestions={battles}
             onClose={() => this.setState({battles: []})}
+          />
+
+          <PreviousReportSuggestions
+            key={9}
+            entryComponent={PreviousReportEntry}
+            onSearchChange={this.previousreportSearch}
+            suggestions={previousreports}
+            onClose={() => this.setState({previousreports: []})}
           />
 
         </div>
