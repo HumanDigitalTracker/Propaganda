@@ -10,6 +10,7 @@ import {
   Divider,
   Icon,
   Button,
+  Row, Col,
 } from 'antd';
 
 import {Motion, spring} from 'react-motion';
@@ -28,6 +29,7 @@ import * as geojsonextent from '@mapbox/geojson-extent';
 
 import CardLoader from "components/CardLoader/CardLoader";
 import Favourite from "../../components/Favourites/Favourite";
+import ViewFavourites from "../../components/Favourites/ViewFavourite";
 
 const {TabPane} = Tabs;
 const {RangePicker} = DatePicker;
@@ -51,10 +53,14 @@ for (let i = 0; i < 7; i += 1) {
 export default class Analysis extends Component {
   state = {
     isMobile: false,
+    viewfavouritesmodal : false,
     isSqueezed: false,
     contents : [],
+    favourites : [],
     tab : '1'
   };
+
+
 
   componentDidMount() {
     const {dispatch} = this.props;
@@ -84,6 +90,14 @@ export default class Analysis extends Component {
     }).then((x) => {
       this.forceUpdate();
     });
+  }
+
+  viewFavourites() {
+    this.setState({ viewfavouritesmodal: !this.state.viewfavouritesmodal})
+  }
+
+  addFavourite(card) {
+    this.setState({ favourites: [...this.state.favourites, card] })
   }
 
   addCard(mention) {
@@ -149,7 +163,7 @@ export default class Analysis extends Component {
   }
   render() {
 
-    const { isSqueezed, contents } = this.state;
+    const { isSqueezed, contents, favourites, viewfavouritesmodal } = this.state;
     const { card } = this.props;
     const that = this;
 
@@ -184,23 +198,36 @@ export default class Analysis extends Component {
 
         <div>
 
-
+          <ViewFavourites visible={viewfavouritesmodal} cards={favourites} onCancel={this.viewFavourites.bind(this)}/>
 
           <div id="container" className="flexcanvas flexChild columnParent">
 
             <div id="columnChild82623" className="flexChild">
 
-              <ul style={{listStyle : 'none', marginRight : '320px'}}>
-                {contents.map((item) => <li style={{padding: '4px', float : 'right'}}>
+              <Row>
+                <Col span={8}>
+                  <ul style={{listStyle : 'none', marginTop: '10px',  marginRight: '-639px'}}>
+                    {favourites.map((item) => <li style={{padding: '4px', float : 'right'}}>
+                      <Icon type={'star'} style={{color : 'green'}}/>
+                    </li>)}
+                    <li style={{padding: '4px', float : 'right'}}>{favourites.length && <Button onClick={this.viewFavourites.bind(this)}> View favourites </Button> } </li>
+                    </ul>
 
-                  <YouTube
-                    videoId={item.url.split("v=")[1]}
-                    opts={{ height: '60', width: '60', playerVars: { autoplay: 0, modestbranding: true } }}
-                  />
+                </Col>
 
-                </li>)}
-              </ul>
+                <Col>
+                  <ul style={{listStyle : 'none', marginRight : '320px'}}>
+                    {contents.map((item) => <li style={{padding: '4px', float : 'right'}}>
 
+                      <YouTube
+                        videoId={item.url.split("v=")[1]}
+                        opts={{ height: '60', width: '60', playerVars: { autoplay: 0, modestbranding: true } }}
+                      />
+
+                    </li>)}
+                  </ul>
+                </Col>
+              </Row>
             </div>
 
             <div id="columnChild9707" className="flexChild rowParent">
@@ -224,7 +251,7 @@ export default class Analysis extends Component {
                       <div style={{'background': 'white', 'marginTop': '76px', 'marginLeft': '96px', width: '946px'}}
                            id="rowChild14954" className="flexChild rounded">
                         {card.questioncards.map((thecard, index) => <span><CardLoader key={`card_${index}`}
-                                                                                      extra={<Favourite/>}
+                                                                                      extra={<Favourite onClick={this.addFavourite.bind(this)} card={thecard}/>}
                                                                                       pageActions={{
                                                                                         'addCard': this.addCard.bind(this),
                                                                                         'flyTo': this.flyTo.bind(this),

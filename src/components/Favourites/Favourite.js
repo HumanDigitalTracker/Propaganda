@@ -13,9 +13,11 @@ export default class Favourite extends PureComponent {
 
   addFavourite = (e) => {
     this.setState({saved: true});
+    this.props.onClick(this.props.card);
   };
 
   render() {
+    const { onClick, card } = this.props;
     const {saved} = this.state;
     return (
       <span>
